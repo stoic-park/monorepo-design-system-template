@@ -3,10 +3,10 @@ import React from 'react';
 import { Stack, Button, Card, Typography } from '@design-system/components';
 
 /**
- * Stack 컴포?�트
+ * Stack 컴포?�트
  *
- * ?�자???�큰 기반 간격 관�?컴포?�트
- * className?�로 직접 Tailwind�??��? ?�고 ?��???간격 ?�공
+ * ?�자???�큰 기반 간격 관�?컴포?�트
+ * className?�로 직접 Tailwind�??��? ?�고 ?��???간격 ?�공
  */
 const meta = {
   title: 'Components/Stack',
@@ -147,22 +147,22 @@ export const NestedStacks: Story = {
     <Stack spacing="3xl">
       <Card variant="elevated" padding="lg">
         <Stack spacing="xl">
-          <Typography variant="h3">중첩??Stack ?�시</Typography>
+          <Typography variant="h3">중첩??Stack ?�시</Typography>
 
           <Stack spacing="lg">
-            <Typography variant="h4">가�?버튼 그룹</Typography>
+            <Typography variant="h4">가�?버튼 그룹</Typography>
             <Stack direction="horizontal" spacing="md">
-              <Button variant="primary">?�??/Button>
+              <Button variant="primary">확인</Button>
               <Button variant="outline">취소</Button>
             </Stack>
           </Stack>
 
           <Stack spacing="lg">
-            <Typography variant="h4">?�로 버튼 그룹</Typography>
+            <Typography variant="h4">?�로 버튼 그룹</Typography>
             <Stack spacing="sm">
-              <Button fullWidth>?�션 1</Button>
-              <Button fullWidth>?�션 2</Button>
-              <Button fullWidth>?�션 3</Button>
+              <Button fullWidth>?�션 1</Button>
+              <Button fullWidth>?�션 2</Button>
+              <Button fullWidth>?�션 3</Button>
             </Stack>
           </Stack>
         </Stack>
