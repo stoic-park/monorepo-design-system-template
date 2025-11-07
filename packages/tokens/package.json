@@ -1,7 +1,7 @@
 {
-  "name": "@dbds/tokens",
+  "name": "@design-system/tokens",
   "version": "1.0.0",
-  "description": "DBDS Design Tokens - Black & White Color System",
+  "description": "Design System Tokens - Black & White Color System",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

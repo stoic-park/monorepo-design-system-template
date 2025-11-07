@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Divider } from '@dbds/components';
+import { Divider } from '@design-system/components';
 import React from 'react';
 
 const meta = {
@@ -28,30 +28,30 @@ export const Horizontal: Story = {
   args: {},
   render: () => (
     <div className="w-96">
-      <p className="text-sm">첫 번째 섹션</p>
+      <p className="text-sm">�?번째 ?�션</p>
       <Divider />
-      <p className="text-sm">두 번째 섹션</p>
+      <p className="text-sm">??번째 ?�션</p>
     </div>
   ),
 };
 
 export const WithLabel: Story = {
   args: {
-    label: '또는',
+    label: '?�는',
     labelPosition: 'center',
   },
   render: (args) => (
     <div className="w-96">
-      <p className="text-sm">로그인</p>
+      <p className="text-sm">로그??/p>
       <Divider {...args} />
-      <p className="text-sm">소셜 로그인</p>
+      <p className="text-sm">?�셜 로그??/p>
     </div>
   ),
 };
 
 export const LabelLeft: Story = {
   args: {
-    label: '추가 옵션',
+    label: '추�? ?�션',
     labelPosition: 'left',
   },
   render: (args) => (
@@ -63,7 +63,7 @@ export const LabelLeft: Story = {
 
 export const LabelRight: Story = {
   args: {
-    label: '더 보기',
+    label: '??보기',
     labelPosition: 'right',
   },
   render: (args) => (
@@ -79,11 +79,11 @@ export const Vertical: Story = {
   },
   render: () => (
     <div className="flex items-center h-20">
-      <span className="text-sm">왼쪽</span>
+      <span className="text-sm">?�쪽</span>
       <Divider orientation="vertical" />
-      <span className="text-sm">가운데</span>
+      <span className="text-sm">가?�데</span>
       <Divider orientation="vertical" />
-      <span className="text-sm">오른쪽</span>
+      <span className="text-sm">?�른�?/span>
     </div>
   ),
 };
@@ -92,17 +92,17 @@ export const InCard: Story = {
   args: {},
   render: () => (
     <div className="w-96 p-6 bg-white border border-gray-200 rounded-lg">
-      <h3 className="text-lg font-bold mb-2">카드 제목</h3>
-      <p className="text-sm text-gray-600 mb-4">첫 번째 섹션의 내용입니다.</p>
+      <h3 className="text-lg font-bold mb-2">카드 ?�목</h3>
+      <p className="text-sm text-gray-600 mb-4">�?번째 ?�션???�용?�니??</p>
 
       <Divider />
 
-      <h3 className="text-lg font-bold mb-2">두 번째 섹션</h3>
-      <p className="text-sm text-gray-600 mb-4">두 번째 섹션의 내용입니다.</p>
+      <h3 className="text-lg font-bold mb-2">??번째 ?�션</h3>
+      <p className="text-sm text-gray-600 mb-4">??번째 ?�션???�용?�니??</p>
 
-      <Divider label="추가 정보" />
+      <Divider label="추�? ?�보" />
 
-      <p className="text-sm text-gray-600">세 번째 섹션의 내용입니다.</p>
+      <p className="text-sm text-gray-600">??번째 ?�션???�용?�니??</p>
     </div>
   ),
 };

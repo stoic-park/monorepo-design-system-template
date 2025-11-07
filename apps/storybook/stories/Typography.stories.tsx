@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Typography } from '@dbds/components';
+import { Typography } from '@design-system/components';
 import React from 'react';
 
 const meta = {
@@ -144,7 +144,7 @@ export const ArticleExample: Story = {
     <div className="max-w-2xl space-y-4">
       <Typography variant="h1">The Art of Minimal Design</Typography>
       <Typography variant="body2" color="secondary">
-        By Design Team • 5 min read
+        By Design Team ??5 min read
       </Typography>
       <Typography variant="h3" className="mt-6">
         Introduction

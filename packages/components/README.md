@@ -1,25 +1,30 @@
-# @dbds/components
+# @design-system/components
 
-> DBDS (Design Beyond Design System) React Components  
+> Design System React Components  
 > 흑백 미니멀리즘 기반의 완전한 디자인 시스템
 
 ---
 
-## 📦 설치
+## 설치
 
 ```bash
-pnpm add @dbds/components
+pnpm add @design-system/components
 # 또는
-npm install @dbds/components
+npm install @design-system/components
 ```
 
 ---
 
-## 🚀 빠른 시작
+## 빠른 시작
 
 ```tsx
-import { Button, Input, ToastProvider, useToast } from '@dbds/components';
-import '@dbds/components/dist/styles.css';
+import {
+  Button,
+  Input,
+  ToastProvider,
+  useToast,
+} from '@design-system/components';
+import '@design-system/components/dist/styles.css';
 
 function App() {
   return (
@@ -45,9 +50,9 @@ function YourApp() {
 
 ---
 
-## 🧩 컴포넌트 (총 13개)
+## 컴포넌트 (총 14개)
 
-### Atoms (기본 컴포넌트 - 10개)
+### Atoms (기본 컴포넌트 - 11개)
 
 | 컴포넌트       | 설명         | 주요 Props                   |
 | -------------- | ------------ | ---------------------------- |
@@ -78,7 +83,7 @@ function YourApp() {
 
 ---
 
-## 📚 문서
+## 문서
 
 ### 핵심 문서
 
@@ -98,42 +103,38 @@ function YourApp() {
 
 ---
 
-## 🎨 디자인 시스템 구성
+## 디자인 시스템 구성
 
 ```
-@dbds/components
-├── 📐 Principles (원칙)
+@design-system/components
+├── Principles (원칙)
 │   └── Less is More, Monochrome Excellence
-│
-├── 🎨 Tokens (토큰)
+├── Tokens (토큰)
 │   ├── Colors (흑백 + Accent)
 │   ├── Typography (폰트 시스템)
 │   ├── Spacing (간격)
 │   └── Shadows (그림자)
-│
-├── 🧩 Components (컴포넌트)
-│   ├── Atoms (10개)
+├── Components (컴포넌트)
+│   ├── Atoms (11개)
 │   ├── Molecules (1개)
 │   └── Organisms (2개)
-│
-├── 📋 Guidelines (가이드라인)
+├── Guidelines (가이드라인)
 │   ├── 컴포넌트 사용법
 │   ├── 레이아웃 규칙
 │   └── 색상/타이포그래피
-│
-└── 🎯 Patterns (패턴)
+└── Patterns (패턴)
     ├── 인증 (로그인, 회원가입)
-    ├── 폼 (CRUD, 검색, 단계별)
-    └── 피드백 (성공, 오류, 로딩)
+    ├── 폼 (CRUD, 검색, 필터링)
+    └── 피드백 (성공, 실패, 로딩)
 ```
 
 ---
 
-## 💡 주요 특징
+## 주요 특징
 
 ### 1. 흑백 미니멀리즘
 
-- 화려한 색상 대신 흑백 중심
+- 화려한 색상 없이 흑백 중심
 - Accent 컬러는 상태 표시에만 사용
 - 깔끔하고 전문적인 느낌
 
@@ -152,17 +153,17 @@ function YourApp() {
 ### 4. 성능 최적화
 
 - Tree-shaking 지원
-- 작은 번들 크기 (~30KB)
+- 작은 번들 사이즈 (~30KB)
 - React.memo 최적화
 
 ---
 
-## 🎯 사용 예시
+## 사용 예시
 
 ### 로그인 폼
 
 ```tsx
-import { Input, Button, Checkbox, Divider } from '@dbds/components';
+import { Input, Button, Checkbox, Divider } from '@design-system/components';
 
 function LoginForm() {
   return (
@@ -192,7 +193,7 @@ import {
   Radio,
   Button,
   Modal,
-} from '@dbds/components';
+} from '@design-system/components';
 
 function UserForm({ open, onClose, onSave }) {
   return (
@@ -229,7 +230,7 @@ function UserForm({ open, onClose, onSave }) {
 ### Toast 알림
 
 ```tsx
-import { useToast, Button } from '@dbds/components';
+import { useToast, Button } from '@design-system/components';
 
 function MyComponent() {
   const toast = useToast();
@@ -249,12 +250,12 @@ function MyComponent() {
 
 ---
 
-## 🎨 디자인 토큰
+## 디자인 토큰
 
 ### 색상
 
 ```typescript
-import { colors } from '@dbds/tokens';
+import { colors } from '@design-system/tokens';
 
 // 기본 흑백
 colors.black; // #000000
@@ -271,7 +272,7 @@ colors.chart.info.DEFAULT; // #3b82f6
 ### 타이포그래피
 
 ```typescript
-import { typography } from '@dbds/tokens';
+import { typography } from '@design-system/tokens';
 
 typography.fontSize.sm; // 0.875rem (14px)
 typography.fontSize.base; // 1rem (16px)
@@ -281,7 +282,7 @@ typography.fontSize.lg; // 1.125rem (18px)
 ### 간격
 
 ```typescript
-import { spacing } from '@dbds/tokens';
+import { spacing } from '@design-system/tokens';
 
 spacing[4]; // 16px
 spacing[6]; // 24px
@@ -290,14 +291,14 @@ spacing[8]; // 32px
 
 ---
 
-## 🔧 고급 사용법
+## 고급 사용법
 
 ### 테마 커스터마이징
 
 ```typescript
 // tailwind.config.js
 module.exports = {
-  presets: [require('@dbds/theme')],
+  presets: [require('@design-system/theme')],
   theme: {
     extend: {
       colors: {
@@ -315,7 +316,7 @@ module.exports = {
 
 ```tsx
 // 커스텀 버튼
-import { Button, ButtonProps } from '@dbds/components';
+import { Button, ButtonProps } from '@design-system/components';
 
 interface IconButtonProps extends ButtonProps {
   icon: React.ReactNode;
@@ -339,11 +340,11 @@ export const IconButton: React.FC<IconButtonProps> = ({
 
 ---
 
-## 📊 번들 크기
+## 번들 사이즈
 
 ```
-@dbds/components: ~30KB (gzip)
-@dbds/tokens: ~5KB (gzip)
+@design-system/components: ~30KB (gzip)
+@design-system/tokens: ~5KB (gzip)
 Total: ~35KB (gzip)
 ```
 
@@ -351,24 +352,22 @@ Tree-shaking 지원으로 실제 사용하는 컴포넌트만 번들에 포함�
 
 ---
 
-## 🤝 기여하기
+## 기여하기
 
-새로운 컴포넌트가 필요하거나 개선점이 있다면:
+새로운 컴포넌트가 필요하거나 개선사항이 있다면:
 
-1. 이슈 생성
+1. 이슈 작성
 2. 디자인 원칙 검토
 3. PR 제출
 4. Storybook 스토리 작성 필수
 
 ---
 
-## 📄 라이선스
+## 라이센스
 
 MIT
 
 ---
 
-**DBDS - Design Beyond Design System**  
-**흑백을 넘어선 본질적 디자인** 🎯
-
-알겠습니다 주인님!
+**Design System - Design Beyond Design System**  
+**흑백의 아름다움, 본질의 디자인**

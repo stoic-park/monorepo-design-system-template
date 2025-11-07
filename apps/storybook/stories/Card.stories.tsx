@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Card } from '@dbds/components';
+import { Card } from '@design-system/components';
 import React from 'react';
 
 const meta = {

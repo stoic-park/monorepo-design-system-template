@@ -5,7 +5,7 @@ const {
   spacing,
   radius,
   shadows,
-} = require('@dbds/tokens');
+} = require('@design-system/tokens');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

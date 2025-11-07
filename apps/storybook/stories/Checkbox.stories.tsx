@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Checkbox } from '@dbds/components';
+import { Checkbox } from '@design-system/components';
 import React from 'react';
 
 const meta = {
@@ -27,35 +27,35 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    label: '동의합니다',
+    label: '?�의?�니??,
   },
 };
 
 export const WithDescription: Story = {
   args: {
-    label: '약관에 동의합니다',
-    description: '서비스 이용약관 및 개인정보 처리방침에 동의합니다.',
+    label: '?��????�의?�니??,
+    description: '?�비???�용?��? �?개인?�보 처리방침???�의?�니??',
   },
 };
 
 export const Error: Story = {
   args: {
-    label: '필수 동의 항목',
+    label: '?�수 ?�의 ??��',
     error: true,
-    errorMessage: '필수 항목입니다.',
+    errorMessage: '?�수 ??��?�니??',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    label: '비활성화됨',
+    label: '비활?�화??,
     disabled: true,
   },
 };
 
 export const Checked: Story = {
   args: {
-    label: '선택됨',
+    label: '?�택??,
     defaultChecked: true,
   },
 };
@@ -68,10 +68,10 @@ export const Group: Story = {
   args: {},
   render: () => (
     <div className="flex flex-col gap-3">
-      <Checkbox label="옵션 1" defaultChecked />
-      <Checkbox label="옵션 2" />
-      <Checkbox label="옵션 3" />
-      <Checkbox label="옵션 4 (비활성화)" disabled />
+      <Checkbox label="?�션 1" defaultChecked />
+      <Checkbox label="?�션 2" />
+      <Checkbox label="?�션 3" />
+      <Checkbox label="?�션 4 (비활?�화)" disabled />
     </div>
   ),
 };

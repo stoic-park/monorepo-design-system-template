@@ -7,10 +7,9 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@dbds/charts": "workspace:*",
-    "@dbds/components": "workspace:*",
-    "@dbds/theme": "workspace:*",
-    "@dbds/tokens": "workspace:*",
+    "@design-system/components": "workspace:*",
+    "@design-system/theme": "workspace:*",
+    "@design-system/tokens": "workspace:*",
     "date-fns": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

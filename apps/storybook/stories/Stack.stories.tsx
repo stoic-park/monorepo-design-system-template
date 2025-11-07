@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { Stack, Button, Card, Typography } from '@dbds/components';
+import { Stack, Button, Card, Typography } from '@design-system/components';
 
 /**
- * Stack 컴포넌트
+ * Stack 컴포?�트
  *
- * 디자인 토큰 기반 간격 관리 컴포넌트
- * className으로 직접 Tailwind를 쓰지 않고 일관된 간격 제공
+ * ?�자???�큰 기반 간격 관�?컴포?�트
+ * className?�로 직접 Tailwind�??��? ?�고 ?��???간격 ?�공
  */
 const meta = {
   title: 'Components/Stack',
@@ -147,22 +147,22 @@ export const NestedStacks: Story = {
     <Stack spacing="3xl">
       <Card variant="elevated" padding="lg">
         <Stack spacing="xl">
-          <Typography variant="h3">중첩된 Stack 예시</Typography>
+          <Typography variant="h3">중첩??Stack ?�시</Typography>
 
           <Stack spacing="lg">
-            <Typography variant="h4">가로 버튼 그룹</Typography>
+            <Typography variant="h4">가�?버튼 그룹</Typography>
             <Stack direction="horizontal" spacing="md">
-              <Button variant="primary">저장</Button>
+              <Button variant="primary">?�??/Button>
               <Button variant="outline">취소</Button>
             </Stack>
           </Stack>
 
           <Stack spacing="lg">
-            <Typography variant="h4">세로 버튼 그룹</Typography>
+            <Typography variant="h4">?�로 버튼 그룹</Typography>
             <Stack spacing="sm">
-              <Button fullWidth>옵션 1</Button>
-              <Button fullWidth>옵션 2</Button>
-              <Button fullWidth>옵션 3</Button>
+              <Button fullWidth>?�션 1</Button>
+              <Button fullWidth>?�션 2</Button>
+              <Button fullWidth>?�션 3</Button>
             </Stack>
           </Stack>
         </Stack>

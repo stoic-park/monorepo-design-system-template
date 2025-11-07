@@ -1,8 +1,8 @@
-# 🤝 Contributing
+# Contributing
 
 This template is designed to be customized for your own projects. Here are some ideas for customization:
 
-## 🎨 Customization Ideas
+## Customization Ideas
 
 ### 1. Brand Colors
 
@@ -50,21 +50,21 @@ Add more documentation:
 - Design guidelines
 - Contribution guidelines
 
-## 📝 Naming Conventions
+## Naming Conventions
 
 When customizing, consider changing:
-- Package scope: `@dbds/*` → `@your-company/*`
+- Package scope: `@design-system/*` to `@your-company/*`
 - Component prefix: if needed
 - File naming conventions
 
-## 🔄 Keeping Up to Date
+## Keeping Up to Date
 
 Since this is a template, not a library:
 1. Fork or copy the template
 2. Customize for your needs
 3. Maintain your own version
 
-## 💡 Sharing Improvements
+## Sharing Improvements
 
 If you make improvements that could benefit others:
 1. Create a GitHub repository
@@ -73,5 +73,4 @@ If you make improvements that could benefit others:
 
 ---
 
-Happy customizing! 🎉
-
+Happy customizing!

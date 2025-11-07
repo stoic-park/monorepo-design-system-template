@@ -1,7 +1,7 @@
 {
-  "name": "@dbds/components",
+  "name": "@design-system/components",
   "version": "1.0.0",
-  "description": "DBDS React Components",
+  "description": "Design System React Components",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -18,7 +18,7 @@
     "dev": "tsup src/index.ts --format cjs,esm --dts --external react --external react-dom --watch"
   },
   "dependencies": {
-    "@dbds/tokens": "workspace:*",
+    "@design-system/tokens": "workspace:*",
     "clsx": "^2.1.0"
   },
   "devDependencies": {

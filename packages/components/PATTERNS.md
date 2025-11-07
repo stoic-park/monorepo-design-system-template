@@ -1,10 +1,10 @@
-# DBDS 디자인 패턴
+# Design System 디자인 패턴
 
-> 자주 사용되는 UI 패턴 모음집
+> 자주 사용하는 UI 패턴 모음집
 
 ---
 
-## 📋 목차
+## 목차
 
 1. [인증 패턴](#인증-패턴)
 2. [폼 패턴](#폼-패턴)
@@ -26,7 +26,7 @@ import {
   Divider,
   Alert,
   useToast,
-} from '@dbds/components';
+} from '@design-system/components';
 
 function LoginForm() {
   const toast = useToast();
@@ -109,102 +109,166 @@ import {
   TextArea,
   Radio,
   Button,
-  Divider,
   Modal,
-} from '@dbds/components';
+} from '@design-system/components';
 
-function UserForm({ user, onSave, onCancel }) {
+function UserForm({ open, onClose, onSave, initialData = {} }) {
+  const [formData, setFormData] = useState(initialData);
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (field, value) => {
+    setFormData({ ...formData, [field]: value });
+    setErrors({ ...errors, [field]: '' });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await onSave(formData);
+      toast.success('저장되었습니다');
+      onClose();
+    } catch (error) {
+      toast.error('저장에 실패했습니다');
+    }
+  };
+
   return (
-    <form className="space-y-6">
-      {/* 기본 정보 */}
-      <div className="space-y-4">
-        <Typography variant="h3">기본 정보</Typography>
+    <Modal open={open} onClose={onClose} title="사용자 등록">
+      <Modal.Body>
+        <div className="space-y-4">
+          <Input
+            label="이름"
+            value={formData.name}
+            onChange={(e) => handleChange('name', e.target.value)}
+            error={!!errors.name}
+            errorMessage={errors.name}
+            fullWidth
+            required
+          />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input label="성" required fullWidth />
-          <Input label="이름" required fullWidth />
-        </div>
+          <Input
+            label="이메일"
+            type="email"
+            value={formData.email}
+            onChange={(e) => handleChange('email', e.target.value)}
+            error={!!errors.email}
+            errorMessage={errors.email}
+            fullWidth
+            required
+          />
 
-        <Input label="이메일" type="email" required fullWidth />
+          <Select
+            label="부서"
+            value={formData.department}
+            onChange={(e) => handleChange('department', e.target.value)}
+            options={departments}
+            fullWidth
+            required
+          />
 
-        <Select label="부서" options={departments} required fullWidth />
-      </div>
+          <TextArea
+            label="소개"
+            value={formData.bio}
+            onChange={(e) => handleChange('bio', e.target.value)}
+            rows={4}
+            fullWidth
+          />
 
-      <Divider />
-
-      {/* 추가 정보 */}
-      <div className="space-y-4">
-        <Typography variant="h3">추가 정보</Typography>
-
-        <TextArea
-          label="소개"
-          rows={4}
-          placeholder="간단한 소개를 입력하세요"
-          fullWidth
-        />
-
-        <div>
-          <label className="text-sm font-medium text-gray-900 block mb-2">
-            사용 여부
-          </label>
-          <div className="flex gap-4">
-            <Radio name="useYn" value="Y" label="Y" defaultChecked />
-            <Radio name="useYn" value="N" label="N" />
+          <div>
+            <label className="text-sm font-medium block mb-2">사용 여부</label>
+            <div className="flex gap-4">
+              <Radio
+                name="useYn"
+                value="Y"
+                label="Y"
+                checked={formData.useYn === 'Y'}
+                onChange={() => handleChange('useYn', 'Y')}
+              />
+              <Radio
+                name="useYn"
+                value="N"
+                label="N"
+                checked={formData.useYn === 'N'}
+                onChange={() => handleChange('useYn', 'N')}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </Modal.Body>
 
-      <Divider />
-
-      {/* 액션 버튼 */}
-      <div className="flex justify-end gap-2">
-        <Button variant="outline" onClick={onCancel}>
+      <Modal.Footer>
+        <Button variant="outline" onClick={onClose}>
           취소
         </Button>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" onClick={handleSubmit}>
           저장
         </Button>
-      </div>
-    </form>
+      </Modal.Footer>
+    </Modal>
   );
 }
 ```
 
----
-
-### 검색 폼
+### 검색 및 필터
 
 ```tsx
-function SearchForm({ onSearch }) {
+import { Input, Select, Button } from '@design-system/components';
+
+function SearchFilter({ onSearch }) {
+  const [filters, setFilters] = useState({
+    keyword: '',
+    category: '',
+    status: '',
+  });
+
+  const handleSearch = () => {
+    onSearch(filters);
+  };
+
+  const handleReset = () => {
+    setFilters({ keyword: '', category: '', status: '' });
+    onSearch({ keyword: '', category: '', status: '' });
+  };
+
   return (
-    <Card>
-      <div className="p-6 space-y-4">
-        <Typography variant="h3">검색 조건</Typography>
+    <Card padding="md" className="mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Input
+          label="검색어"
+          placeholder="검색어를 입력하세요"
+          value={filters.keyword}
+          onChange={(e) =>
+            setFilters({ ...filters, keyword: e.target.value })
+          }
+          fullWidth
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Input label="검색어" placeholder="이름, 이메일로 검색" />
+        <Select
+          label="카테고리"
+          value={filters.category}
+          onChange={(e) =>
+            setFilters({ ...filters, category: e.target.value })
+          }
+          options={categories}
+          fullWidth
+        />
 
-          <Select
-            label="부서"
-            options={[
-              { label: '전체', value: '' },
-              { label: '개발팀', value: 'dev' },
-            ]}
-          />
+        <Select
+          label="상태"
+          value={filters.status}
+          onChange={(e) =>
+            setFilters({ ...filters, status: e.target.value })
+          }
+          options={statuses}
+          fullWidth
+        />
 
-          <Select
-            label="상태"
-            options={[
-              { label: '전체', value: '' },
-              { label: '활성', value: 'active' },
-              { label: '비활성', value: 'inactive' },
-            ]}
-          />
-        </div>
-
-        <div className="flex justify-end gap-2">
-          <Button variant="outline">초기화</Button>
-          <Button variant="primary">검색</Button>
+        <div className="flex items-end gap-2">
+          <Button variant="primary" onClick={handleSearch} fullWidth>
+            검색
+          </Button>
+          <Button variant="outline" onClick={handleReset}>
+            초기화
+          </Button>
         </div>
       </div>
     </Card>
@@ -219,32 +283,31 @@ function SearchForm({ onSearch }) {
 ### 카드 리스트
 
 ```tsx
-function UserList({ users }) {
+import { Card, Badge, Button } from '@design-system/components';
+
+function CardList({ items }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {users.map((user) => (
-        <Card key={user.id} variant="bordered">
-          <div className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <Typography variant="h4">{user.name}</Typography>
-              <Badge variant={user.active ? 'success' : 'default'}>
-                {user.active ? '활성' : '비활성'}
+      {items.map((item) => (
+        <Card key={item.id} variant="bordered" padding="md">
+          <div className="space-y-3">
+            <div className="flex items-start justify-between">
+              <Typography variant="h3">{item.title}</Typography>
+              <Badge variant={item.status === 'active' ? 'success' : 'default'}>
+                {item.status}
               </Badge>
             </div>
 
+            <Typography variant="body2" color="secondary">
+              {item.description}
+            </Typography>
+
             <Divider />
 
-            <div className="space-y-2 mt-4">
-              <p className="text-sm text-gray-600">{user.email}</p>
-              <p className="text-sm text-gray-600">{user.dept}</p>
-            </div>
-
-            <div className="flex gap-2 mt-4">
-              <Button variant="outline" size="sm" fullWidth>
-                수정
-              </Button>
-              <Button variant="outline" size="sm" fullWidth>
-                삭제
+            <div className="flex justify-between items-center">
+              <Typography variant="caption">{item.date}</Typography>
+              <Button variant="ghost" size="sm">
+                자세히 보기
               </Button>
             </div>
           </div>
@@ -255,40 +318,146 @@ function UserList({ users }) {
 }
 ```
 
-### 통계 대시보드
+### 테이블 리스트
 
 ```tsx
-function Dashboard() {
+import { Button, Badge, Checkbox } from '@design-system/components';
+
+function DataTable({ data, onEdit, onDelete }) {
+  const [selected, setSelected] = useState([]);
+
+  const toggleSelection = (id) => {
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
   return (
-    <div className="space-y-6">
-      {/* KPI 카드 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card variant="elevated">
-          <div className="p-6">
-            <Typography variant="small" className="text-gray-600">
-              총 사용자
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-4 py-3">
+              <Checkbox
+                checked={selected.length === data.length}
+                onChange={(e) =>
+                  setSelected(e.target.checked ? data.map((d) => d.id) : [])
+                }
+              />
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              이름
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              이메일
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              상태
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+              작업
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {data.map((row) => (
+            <tr key={row.id} className="hover:bg-gray-50">
+              <td className="px-4 py-3">
+                <Checkbox
+                  checked={selected.includes(row.id)}
+                  onChange={() => toggleSelection(row.id)}
+                />
+              </td>
+              <td className="px-4 py-3 whitespace-nowrap">{row.name}</td>
+              <td className="px-4 py-3 whitespace-nowrap">{row.email}</td>
+              <td className="px-4 py-3 whitespace-nowrap">
+                <Badge variant={row.status === 'active' ? 'success' : 'default'}>
+                  {row.status}
+                </Badge>
+              </td>
+              <td className="px-4 py-3 whitespace-nowrap text-right space-x-2">
+                <Button variant="ghost" size="sm" onClick={() => onEdit(row)}>
+                  수정
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => onDelete(row)}>
+                  삭제
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+```
+
+### 상세 페이지
+
+```tsx
+import { Card, Badge, Button, Divider } from '@design-system/components';
+
+function DetailPage({ data, onEdit, onDelete }) {
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <Card padding="lg">
+        {/* 헤더 */}
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <Typography variant="h1" className="mb-2">
+              {data.title}
             </Typography>
-            <Typography variant="h2" className="mt-2">
-              1,234
-            </Typography>
-            <Badge variant="success" className="mt-2">
-              +12% 증가
-            </Badge>
+            <div className="flex items-center gap-2">
+              <Badge variant="success">{data.status}</Badge>
+              <Typography variant="caption" color="secondary">
+                작성일: {data.createdAt}
+              </Typography>
+            </div>
           </div>
-        </Card>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={onEdit}>
+              수정
+            </Button>
+            <Button variant="outline" onClick={onDelete}>
+              삭제
+            </Button>
+          </div>
+        </div>
 
-        {/* 나머지 KPI 카드들 */}
-      </div>
+        <Divider className="my-6" />
 
-      <Divider />
+        {/* 본문 */}
+        <div className="space-y-4">
+          <div>
+            <Typography variant="body1" weight="semibold" className="mb-1">
+              설명
+            </Typography>
+            <Typography variant="body2" color="secondary">
+              {data.description}
+            </Typography>
+          </div>
 
-      {/* 차트 */}
-      <Card>
-        <div className="p-6">
-          <Typography variant="h3" className="mb-4">
-            월별 추이
-          </Typography>
-          <EChart option={chartOption} height={400} />
+          <div>
+            <Typography variant="body1" weight="semibold" className="mb-1">
+              담당자
+            </Typography>
+            <Typography variant="body2" color="secondary">
+              {data.assignee}
+            </Typography>
+          </div>
+
+          <div>
+            <Typography variant="body1" weight="semibold" className="mb-1">
+              태그
+            </Typography>
+            <div className="flex gap-2">
+              {data.tags?.map((tag) => (
+                <Badge key={tag} variant="default">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          </div>
         </div>
       </Card>
     </div>
@@ -300,112 +469,119 @@ function Dashboard() {
 
 ## 피드백 패턴
 
-### 성공 피드백
-
-```tsx
-// 1. Toast (간단한 알림)
-const handleSave = async () => {
-  await save();
-  toast.success('저장되었습니다');
-};
-
-// 2. Alert (페이지 상단 알림)
-{
-  saved && (
-    <Alert variant="success" closable onClose={() => setSaved(false)}>
-      저장이 완료되었습니다.
-    </Alert>
-  );
-}
-
-// 3. Modal (중요한 확인)
-<Modal open={saved} onClose={() => setSaved(false)} size="sm">
-  <Modal.Body>
-    <div className="text-center py-4">
-      <div className="text-4xl mb-4">✓</div>
-      <Typography variant="h3">저장 완료</Typography>
-    </div>
-  </Modal.Body>
-</Modal>;
-```
-
-### 확인 다이얼로그
-
-```tsx
-function DeleteButton({ onDelete }) {
-  const [showConfirm, setShowConfirm] = useState(false);
-
-  const handleConfirm = async () => {
-    await onDelete();
-    setShowConfirm(false);
-    toast.success('삭제되었습니다');
-  };
-
-  return (
-    <>
-      <Button variant="outline" onClick={() => setShowConfirm(true)}>
-        삭제
-      </Button>
-
-      <Modal
-        open={showConfirm}
-        onClose={() => setShowConfirm(false)}
-        title="삭제 확인"
-        size="sm"
-      >
-        <Modal.Body>
-          <Alert variant="warning">
-            정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
-          </Alert>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="outline" onClick={() => setShowConfirm(false)}>
-            취소
-          </Button>
-          <Button variant="primary" onClick={handleConfirm}>
-            삭제
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
-}
-```
-
 ### 로딩 상태
 
 ```tsx
-function DataPage() {
-  const { data, isLoading } = useQuery();
+import { Spinner, Card } from '@design-system/components';
 
+function LoadingState({ isLoading, children }) {
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Spinner size="xl" />
+      <div className="flex items-center justify-center py-12">
+        <Spinner size="lg" />
       </div>
     );
   }
 
-  return <DataTable data={data} />;
+  return children;
+}
+
+// 사용 예시
+function MyComponent() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  return (
+    <LoadingState isLoading={isLoading}>
+      <DataList data={data} />
+    </LoadingState>
+  );
+}
+```
+
+### 에러 상태
+
+```tsx
+import { Alert, Button } from '@design-system/components';
+
+function ErrorState({ error, onRetry }) {
+  return (
+    <div className="max-w-md mx-auto p-8">
+      <Alert variant="error" title="오류가 발생했습니다" closable={false}>
+        <div className="mt-2 space-y-3">
+          <Typography variant="body2">{error.message}</Typography>
+          <Button variant="outline" onClick={onRetry} fullWidth>
+            다시 시도
+          </Button>
+        </div>
+      </Alert>
+    </div>
+  );
 }
 ```
 
 ### 빈 상태
 
 ```tsx
-function EmptyState() {
+import { Button, Typography } from '@design-system/components';
+
+function EmptyState({ title, description, action, onAction }) {
   return (
-    <div className="text-center py-12">
-      <div className="mb-4">
-        <Spinner size="xl" className="opacity-20" />
-      </div>
-      <Typography variant="h3" className="text-gray-400 mb-2">
-        데이터가 없습니다
+    <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+      <Typography variant="h3" className="mb-2">
+        {title}
       </Typography>
-      <Typography variant="body" className="text-gray-500 mb-4">
-        새로운 항목을 추가해보세요
+      <Typography variant="body2" color="secondary" className="mb-6">
+        {description}
       </Typography>
-      <Button variant="primary">추가하기</Button>
+      {action && (
+        <Button variant="primary" onClick={onAction}>
+          {action}
+        </Button>
+      )}
+    </div>
+  );
+}
+
+// 사용 예시
+function DataList({ items }) {
+  if (items.length === 0) {
+    return (
+      <EmptyState
+        title="데이터가 없습니다"
+        description="새로운 항목을 추가해보세요"
+        action="추가하기"
+        onAction={handleAdd}
+      />
+    );
+  }
+
+  return <div>{/* 리스트 렌더링 */}</div>;
+}
+```
+
+### Toast 알림
+
+```tsx
+import { useToast, Button } from '@design-system/components';
+
+function ToastExample() {
+  const toast = useToast();
+
+  return (
+    <div className="space-x-2">
+      <Button onClick={() => toast.success('성공적으로 저장되었습니다')}>
+        성공
+      </Button>
+      <Button onClick={() => toast.error('오류가 발생했습니다')}>
+        에러
+      </Button>
+      <Button onClick={() => toast.info('정보를 확인하세요')}>
+        정보
+      </Button>
+      <Button onClick={() => toast.warning('주의가 필요합니다')}>
+        경고
+      </Button>
     </div>
   );
 }
@@ -415,78 +591,92 @@ function EmptyState() {
 
 ## 네비게이션 패턴
 
+### 페이지네이션
+
+```tsx
+import { Button } from '@design-system/components';
+
+function Pagination({ currentPage, totalPages, onPageChange }) {
+  return (
+    <div className="flex items-center justify-center gap-2 mt-6">
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        이전
+      </Button>
+
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+        <Button
+          key={page}
+          variant={page === currentPage ? 'primary' : 'outline'}
+          size="sm"
+          onClick={() => onPageChange(page)}
+        >
+          {page}
+        </Button>
+      ))}
+
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        다음
+      </Button>
+    </div>
+  );
+}
+```
+
 ### 탭 네비게이션
 
 ```tsx
-function TabsExample() {
-  const [activeTab, setActiveTab] = useState('info');
+import { Button } from '@design-system/components';
+
+function Tabs({ tabs, activeTab, onChange }) {
+  return (
+    <div className="border-b border-gray-200">
+      <div className="flex gap-1">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => onChange(tab.id)}
+            className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+              activeTab === tab.id
+                ? 'border-black text-black'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// 사용 예시
+function TabExample() {
+  const [activeTab, setActiveTab] = useState('overview');
+
+  const tabs = [
+    { id: 'overview', label: '개요' },
+    { id: 'details', label: '상세' },
+    { id: 'settings', label: '설정' },
+  ];
 
   return (
     <div>
-      {/* 탭 버튼 */}
-      <div className="flex border-b border-gray-200">
-        <button
-          onClick={() => setActiveTab('info')}
-          className={clsx(
-            'px-4 py-2 border-b-2 transition-colors',
-            activeTab === 'info'
-              ? 'border-black text-black'
-              : 'border-transparent text-gray-600 hover:text-gray-900'
-          )}
-        >
-          기본 정보
-        </button>
-        <button
-          onClick={() => setActiveTab('settings')}
-          className={clsx(
-            'px-4 py-2 border-b-2 transition-colors',
-            activeTab === 'settings'
-              ? 'border-black text-black'
-              : 'border-transparent text-gray-600 hover:text-gray-900'
-          )}
-        >
-          설정
-        </button>
+      <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
+      <div className="p-4">
+        {activeTab === 'overview' && <Overview />}
+        {activeTab === 'details' && <Details />}
+        {activeTab === 'settings' && <Settings />}
       </div>
-
-      {/* 탭 내용 */}
-      <div className="mt-6">
-        {activeTab === 'info' && <InfoTab />}
-        {activeTab === 'settings' && <SettingsTab />}
-      </div>
-    </div>
-  );
-}
-```
-
-### 필터 + 정렬
-
-```tsx
-function DataView() {
-  return (
-    <div className="space-y-4">
-      {/* 필터 */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2">
-          <Badge variant="default">전체 (123)</Badge>
-          <Badge variant="success">완료 (89)</Badge>
-          <Badge variant="error">실패 (12)</Badge>
-          <Badge variant="warning">대기 (22)</Badge>
-        </div>
-
-        <Select
-          options={[
-            { label: '최신순', value: 'latest' },
-            { label: '오래된순', value: 'oldest' },
-            { label: '이름순', value: 'name' },
-          ]}
-        />
-      </div>
-
-      <Divider />
-
-      {/* 데이터 */}
-      <DataList />
     </div>
   );
 }
@@ -494,169 +684,65 @@ function DataView() {
 
 ---
 
-## 폼 패턴
+## 복합 패턴
 
-### 단계별 폼 (Stepper)
-
-```tsx
-function MultiStepForm() {
-  const [step, setStep] = useState(1);
-
-  return (
-    <div className="max-w-2xl mx-auto">
-      {/* Progress */}
-      <div className="flex items-center justify-between mb-8">
-        {[1, 2, 3].map((s) => (
-          <div key={s} className="flex items-center flex-1">
-            <div
-              className={clsx(
-                'w-8 h-8 rounded-full flex items-center justify-center',
-                'font-bold text-sm',
-                step >= s ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'
-              )}
-            >
-              {s}
-            </div>
-            {s < 3 && (
-              <div
-                className={clsx(
-                  'flex-1 h-0.5 mx-2',
-                  step > s ? 'bg-black' : 'bg-gray-200'
-                )}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* 단계별 내용 */}
-      {step === 1 && <Step1Form />}
-      {step === 2 && <Step2Form />}
-      {step === 3 && <Step3Form />}
-
-      <Divider />
-
-      {/* 네비게이션 */}
-      <div className="flex justify-between">
-        <Button
-          variant="outline"
-          onClick={() => setStep(step - 1)}
-          disabled={step === 1}
-        >
-          이전
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => setStep(step + 1)}
-          disabled={step === 3}
-        >
-          {step === 3 ? '완료' : '다음'}
-        </Button>
-      </div>
-    </div>
-  );
-}
-```
-
-### 인라인 편집
+### 대시보드
 
 ```tsx
-function InlineEdit({ value, onSave }) {
-  const [editing, setEditing] = useState(false);
-  const [editValue, setEditValue] = useState(value);
+import { Card, Typography, Badge } from '@design-system/components';
 
-  if (!editing) {
-    return (
-      <div className="flex items-center gap-2">
-        <span>{value}</span>
-        <Button variant="ghost" size="sm" onClick={() => setEditing(true)}>
-          수정
-        </Button>
-      </div>
-    );
-  }
-
+function Dashboard() {
   return (
-    <div className="flex items-center gap-2">
-      <Input value={editValue} onChange={(e) => setEditValue(e.target.value)} />
-      <Button
-        size="sm"
-        onClick={() => {
-          onSave(editValue);
-          setEditing(false);
-        }}
-      >
-        저장
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => {
-          setEditValue(value);
-          setEditing(false);
-        }}
-      >
-        취소
-      </Button>
-    </div>
-  );
-}
-```
-
----
-
-## 데이터 표시 패턴
-
-### 상세 정보 페이지
-
-```tsx
-function DetailPage({ data }) {
-  return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* 헤더 */}
-      <div className="flex items-center justify-between">
-        <div>
-          <Typography variant="h2">{data.name}</Typography>
-          <Typography variant="body" className="text-gray-600">
-            {data.description}
+    <div className="space-y-6">
+      {/* 통계 카드 */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card padding="md">
+          <Typography variant="caption" color="secondary">
+            총 사용자
           </Typography>
-        </div>
-        <Badge variant="success">활성</Badge>
+          <Typography variant="h2">1,234</Typography>
+          <Badge variant="success" size="sm">
+            +12%
+          </Badge>
+        </Card>
+        <Card padding="md">
+          <Typography variant="caption" color="secondary">
+            활성 사용자
+          </Typography>
+          <Typography variant="h2">856</Typography>
+          <Badge variant="success" size="sm">
+            +8%
+          </Badge>
+        </Card>
+        <Card padding="md">
+          <Typography variant="caption" color="secondary">
+            신규 가입
+          </Typography>
+          <Typography variant="h2">42</Typography>
+          <Badge variant="warning" size="sm">
+            -3%
+          </Badge>
+        </Card>
+        <Card padding="md">
+          <Typography variant="caption" color="secondary">
+            매출
+          </Typography>
+          <Typography variant="h2">$12.5K</Typography>
+          <Badge variant="success" size="sm">
+            +15%
+          </Badge>
+        </Card>
       </div>
 
-      <Divider />
-
-      {/* 정보 섹션 */}
-      <Card>
-        <div className="p-6 space-y-4">
-          <Typography variant="h3">기본 정보</Typography>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <span className="text-sm text-gray-600">이메일</span>
-              <p className="text-base font-medium">{data.email}</p>
-            </div>
-            <div>
-              <span className="text-sm text-gray-600">부서</span>
-              <p className="text-base font-medium">{data.dept}</p>
-            </div>
-            <div>
-              <span className="text-sm text-gray-600">가입일</span>
-              <p className="text-base font-medium">{data.joinDate}</p>
-            </div>
-            <div>
-              <span className="text-sm text-gray-600">상태</span>
-              <p className="text-base font-medium">{data.status}</p>
-            </div>
-          </div>
+      {/* 최근 활동 */}
+      <Card padding="lg">
+        <Typography variant="h3" className="mb-4">
+          최근 활동
+        </Typography>
+        <div className="space-y-3">
+          {/* 활동 목록 */}
         </div>
       </Card>
-
-      {/* 액션 */}
-      <div className="flex justify-end gap-2">
-        <Button variant="outline">수정</Button>
-        <Button variant="outline">삭제</Button>
-      </div>
     </div>
   );
 }
@@ -664,126 +750,4 @@ function DetailPage({ data }) {
 
 ---
 
-## 피드백 패턴
-
-### 성공/실패 처리
-
-```tsx
-function ActionButton() {
-  const toast = useToast();
-  const [loading, setLoading] = useState(false);
-
-  const handleAction = async () => {
-    setLoading(true);
-
-    try {
-      await performAction();
-      toast.success('작업이 완료되었습니다', '성공');
-    } catch (error) {
-      toast.error(
-        error.message || '작업을 처리하는 중 오류가 발생했습니다',
-        '오류'
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <Button variant="primary" onClick={handleAction} disabled={loading}>
-      {loading && <Spinner size="sm" variant="white" />}
-      {loading ? '처리 중...' : '실행'}
-    </Button>
-  );
-}
-```
-
-### 검증 피드백
-
-```tsx
-function ValidatedForm() {
-  const [formData, setFormData] = useState({});
-  const [errors, setErrors] = useState({});
-
-  const validate = () => {
-    const newErrors = {};
-
-    if (!formData.name) {
-      newErrors.name = '이름을 입력해주세요';
-    }
-
-    if (!formData.email) {
-      newErrors.email = '이메일을 입력해주세요';
-    } else if (!isValidEmail(formData.email)) {
-      newErrors.email = '올바른 이메일 형식이 아닙니다';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  return (
-    <form className="space-y-4">
-      {Object.keys(errors).length > 0 && (
-        <Alert variant="error" title="입력 오류">
-          모든 필수 항목을 올바르게 입력해주세요.
-        </Alert>
-      )}
-
-      <Input
-        label="이름"
-        value={formData.name}
-        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        error={!!errors.name}
-        errorMessage={errors.name}
-      />
-
-      <Input
-        label="이메일"
-        type="email"
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        error={!!errors.email}
-        errorMessage={errors.email}
-      />
-    </form>
-  );
-}
-```
-
----
-
-## 🎯 패턴 선택 가이드
-
-### 언제 무엇을 사용하나?
-
-| 상황             | 패턴            | 컴포넌트                       |
-| ---------------- | --------------- | ------------------------------ |
-| 사용자 로그인    | 인증 패턴       | Input, Button, Checkbox        |
-| 데이터 생성/수정 | CRUD 폼         | Input, Select, TextArea, Modal |
-| 데이터 검색      | 검색 폼         | Input, Select, Button          |
-| 리스트 표시      | 카드 리스트     | Card, Badge                    |
-| 작업 완료 알림   | 성공 피드백     | Toast                          |
-| 삭제 확인        | 확인 다이얼로그 | Modal                          |
-| 로딩 중          | 로딩 상태       | Spinner                        |
-| 데이터 없음      | 빈 상태         | EmptyState                     |
-
----
-
-## 📚 추가 패턴 (향후 추가 예정)
-
-- [ ] 결제 프로세스
-- [ ] 파일 업로드 플로우
-- [ ] 멀티 선택 리스트
-- [ ] 드래그 앤 드롭
-- [ ] 무한 스크롤
-- [ ] 가상 스크롤 테이블
-- [ ] 대시보드 레이아웃
-- [ ] 설정 페이지
-
----
-
-**패턴을 활용하면 개발 속도가 3배 빨라집니다!**  
-**검증된 솔루션을 재사용하세요!** 🚀
-
-알겠습니다 주인님!
+**Design System** - 재사용 가능한 UI 패턴으로 빠른 개발

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Badge } from '@dbds/components';
+import { Badge } from '@design-system/components';
 import React from 'react';
 
 const meta = {
@@ -33,28 +33,28 @@ export const Default: Story = {
 export const Success: Story = {
   args: {
     variant: 'success',
-    children: '완료',
+    children: '?�료',
   },
 };
 
 export const Error: Story = {
   args: {
     variant: 'error',
-    children: '에러',
+    children: '?�러',
   },
 };
 
 export const Warning: Story = {
   args: {
     variant: 'warning',
-    children: '대기',
+    children: '?��?,
   },
 };
 
 export const Info: Story = {
   args: {
     variant: 'info',
-    children: '정보',
+    children: '?�보',
   },
 };
 
@@ -101,19 +101,19 @@ export const StatusBadges: Story = {
   render: () => (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-2">
-        <span className="w-20 text-sm text-gray-600">실행 중:</span>
+        <span className="w-20 text-sm text-gray-600">?�행 �?</span>
         <Badge variant="info">Running</Badge>
       </div>
       <div className="flex items-center gap-2">
-        <span className="w-20 text-sm text-gray-600">성공:</span>
+        <span className="w-20 text-sm text-gray-600">?�공:</span>
         <Badge variant="success">Success</Badge>
       </div>
       <div className="flex items-center gap-2">
-        <span className="w-20 text-sm text-gray-600">실패:</span>
+        <span className="w-20 text-sm text-gray-600">?�패:</span>
         <Badge variant="error">Failed</Badge>
       </div>
       <div className="flex items-center gap-2">
-        <span className="w-20 text-sm text-gray-600">대기:</span>
+        <span className="w-20 text-sm text-gray-600">?��?</span>
         <Badge variant="warning">Pending</Badge>
       </div>
     </div>

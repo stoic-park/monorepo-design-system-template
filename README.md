@@ -1,28 +1,30 @@
-﻿# ?렓 Monorepo Design System Template
+# Monorepo Design System Template
 
 A production-ready monorepo template with a minimal design system, built with **pnpm**, **Turborepo**, **React**, and **Tailwind CSS**.
 
-## ??Features
+## Features
 
-### ?벀 Monorepo Structure
+### Monorepo Structure
+
 - **pnpm Workspaces** - Efficient dependency management
 - **Turborepo** - Fast, smart build system
 - **TypeScript** - Type safety across packages
 
-### ?렓 Design System
+### Design System
+
 - **Design Tokens** - Colors, typography, spacing, shadows, radius
 - **React Components** - 15+ reusable UI components
-- **Charts** - ECharts-based chart library
 - **Tailwind Theme** - Shared configuration
 
-### ?썱截?Developer Experience
+### Developer Experience
+
 - **ESLint & Prettier** - Code quality and formatting
 - **Storybook** - Component documentation and development
 - **Hot Module Replacement** - Fast development feedback
 
 ---
 
-## ?? Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -59,37 +61,43 @@ pnpm build
 
 ---
 
-## ?뱚 Project Structure
+## Project Structure
 
 ```
 monorepo-design-system-template/
-?쒋?? apps/
-??  ?붴?? storybook/              # Component documentation
-?쒋?? packages/
-??  ?쒋?? tokens/                 # Design tokens (colors, spacing, etc.)
-??  ?쒋?? components/             # React UI components
-??  ?쒋?? charts/                 # ECharts-based charts
-??  ?붴?? theme/                  # Tailwind CSS preset
-?쒋?? docs/                       # Documentation
-?쒋?? package.json                # Root workspace config
-?쒋?? pnpm-workspace.yaml         # pnpm workspace config
-?붴?? turbo.json                  # Turborepo config
+├── apps/
+│   └── storybook/              # Component documentation
+├── packages/
+│   ├── tokens/                 # Design tokens (colors, spacing, etc.)
+│   ├── components/             # React UI components
+│   └── theme/                  # Tailwind CSS preset
+├── docs/                       # Documentation
+├── package.json                # Root workspace config
+├── pnpm-workspace.yaml         # pnpm workspace config
+└── turbo.json                  # Turborepo config
 ```
 
 ---
 
-## ?벀 Packages
+## Packages
 
-### `@dbds/tokens`
+### `@design-system/tokens`
 
 Design tokens for consistent styling across applications.
 
 ```typescript
-import { colors, typography, spacing, shadows, radius } from '@dbds/tokens';
+import {
+  colors,
+  typography,
+  spacing,
+  shadows,
+  radius,
+} from '@design-system/tokens';
 ```
 
 **Features:**
-- Colors (Classic & shadcn/ui inspired)
+
+- Colors (Minimal black & white with functional accents)
 - Typography (font family, size, weight, line height)
 - Spacing (consistent spacing scale)
 - Shadows (elevation system)
@@ -97,15 +105,16 @@ import { colors, typography, spacing, shadows, radius } from '@dbds/tokens';
 
 ---
 
-### `@dbds/components`
+### `@design-system/components`
 
 React UI component library with minimal design.
 
 ```typescript
-import { Button, Input, Card, Badge, Alert } from '@dbds/components';
+import { Button, Input, Card, Badge, Alert } from '@design-system/components';
 ```
 
 **Components:**
+
 - Button, Input, TextArea, Select
 - Card, Badge, Alert
 - Modal, Toast
@@ -115,70 +124,48 @@ import { Button, Input, Card, Badge, Alert } from '@dbds/components';
 
 ---
 
-### `@dbds/charts`
-
-ECharts-based chart library with design system integration.
-
-```typescript
-import { EChart, barChartTemplate, lineChartTemplate } from '@dbds/charts';
-```
-
-**Features:**
-- Bar, Line, Scatter charts
-- Gantt, Calendar Heatmap, Radar charts
-- Design token integration
-- TypeScript support
-
----
-
-### `@dbds/theme`
+### `@design-system/theme`
 
 Tailwind CSS preset with design tokens.
 
 ```javascript
 // tailwind.config.js
 module.exports = {
-  presets: [require('@dbds/theme')],
+  presets: [require('@design-system/theme')],
   content: ['./src/**/*.{ts,tsx}'],
 };
 ```
 
 ---
 
-## ?렓 Design Tokens
+## Design Tokens
 
-### Color Systems
+### Color System
 
-The template includes two color systems:
-
-#### 1. Classic (Default)
-Minimal black & white design.
+Minimal black & white design with functional accent colors.
 
 ```typescript
-import { colors } from '@dbds/tokens';
-// colors.black = '#000000'
-// colors.white = '#FFFFFF'
-```
+import { colors } from '@design-system/tokens';
 
-#### 2. shadcn/ui Inspired
-Modern slate-based color palette.
+// Pure black & white
+colors.black; // '#000000'
+colors.white; // '#FFFFFF'
 
-```typescript
-import { colorsShadcn } from '@dbds/tokens';
-// colorsShadcn.primary.DEFAULT = '#0F172A'
-```
+// Gray scale
+colors.gray[50]; // Lightest
+colors.gray[500]; // Medium
+colors.gray[900]; // Darkest
 
-### Switching Color Systems
-
-```typescript
-// In packages/tokens/src/index.ts
-// Change the default export:
-export { colorsShadcn as colors } from './colors-shadcn';
+// Functional colors (for status indication only)
+colors.chart.success.DEFAULT; // Green
+colors.chart.error.DEFAULT; // Red
+colors.chart.warning.DEFAULT; // Orange
+colors.chart.info.DEFAULT; // Blue
 ```
 
 ---
 
-## ?썱截?Development Workflow
+## Development Workflow
 
 ### Adding a New Component
 
@@ -197,16 +184,16 @@ export { colorsShadcn as colors } from './colors-shadcn';
 ```json
 {
   "dependencies": {
-    "@dbds/components": "workspace:*",
-    "@dbds/tokens": "workspace:*",
-    "@dbds/theme": "workspace:*"
+    "@design-system/components": "workspace:*",
+    "@design-system/tokens": "workspace:*",
+    "@design-system/theme": "workspace:*"
   }
 }
 ```
 
 ---
 
-## ?뱴 Documentation
+## Documentation
 
 - [Getting Started](./docs/guides/GETTING_STARTED.md)
 - [Monorepo Dependency Strategy](./docs/guides/MONOREPO_DEPENDENCY_STRATEGY.md)
@@ -215,7 +202,7 @@ export { colorsShadcn as colors } from './colors-shadcn';
 
 ---
 
-## ?쩃 Contributing
+## Contributing
 
 This template is designed to be forked and customized for your projects.
 
@@ -229,22 +216,20 @@ This template is designed to be forked and customized for your projects.
 
 ---
 
-## ?뱞 License
+## License
 
 MIT License - feel free to use this template for your projects!
 
 ---
 
-## ?솋 Credits
+## Credits
 
-- Inspired by [shadcn/ui](https://ui.shadcn.com/)
 - Built with [pnpm](https://pnpm.io/) and [Turborepo](https://turbo.build/)
 - UI components powered by [Tailwind CSS](https://tailwindcss.com/)
-- Charts powered by [Apache ECharts](https://echarts.apache.org/)
 
 ---
 
-## ?뵕 Related
+## Related
 
 - [pnpm Workspaces](https://pnpm.io/workspaces)
 - [Turborepo Handbook](https://turbo.build/repo/docs/handbook)
@@ -252,4 +237,4 @@ MIT License - feel free to use this template for your projects!
 
 ---
 
-Happy coding! ??
+Happy coding!

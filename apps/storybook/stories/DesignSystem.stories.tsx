@@ -10,16 +10,13 @@ import {
   Typography,
   Divider,
   Stack,
-} from '@dbds/components';
+} from '@design-system/components';
 
 /**
- * 디자인 시스템 개요
+ * ?�자???�스??개요
  *
- * 디자이너를 위한 전체 디자인 시스템 미리보기
- * - 컬러 팔레트
- * - 타이포그래피
- * - 컴포넌트 변형
- * - 레이아웃 예시
+ * ?�자?�너�??�한 ?�체 ?�자???�스??미리보기
+ * - 컬러 ?�레?? * - ?�?�포그래?? * - 컴포?�트 변?? * - ?�이?�웃 ?�시
  */
 const meta = {
   title: 'Design System/Overview',
@@ -32,7 +29,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 컬러 팔레트 컴포넌트
+// 컬러 ?�레??컴포?�트
 const ColorSwatch: React.FC<{
   name: string;
   color: string;
@@ -53,7 +50,7 @@ const ColorSwatch: React.FC<{
   </div>
 );
 
-// 전체 디자인 시스템 개요
+// ?�체 ?�자???�스??개요
 export const DesignSystemOverview: Story = {
   args: {},
   render: () => (
@@ -65,10 +62,10 @@ export const DesignSystemOverview: Story = {
             DBDS - Design System Overview
           </Typography>
           <Typography variant="body1" className="text-slate-600 mb-16">
-            디자이너를 위한 전체 디자인 시스템 미리보기
+            ?�자?�너�??�한 ?�체 ?�자???�스??미리보기
           </Typography>
           <div className="flex gap-8">
-            <Badge variant="success">완성도 85%</Badge>
+            <Badge variant="success">?�성??85%</Badge>
             <Badge variant="info">shadcn/ui inspired</Badge>
             <Badge>13 Components</Badge>
           </div>
@@ -78,11 +75,11 @@ export const DesignSystemOverview: Story = {
       {/* Content */}
       <div className="max-w-7xl mx-auto px-12 py-32">
         <Stack spacing="4xl">
-          {/* 1. 컬러 시스템 */}
+          {/* 1. 컬러 ?�스??*/}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">🎨 컬러 시스템</Typography>
+                <Typography variant="h2">?�� 컬러 ?�스??/Typography>
 
                 <Stack spacing="3xl">
                   {/* Neutral Colors */}
@@ -145,11 +142,11 @@ export const DesignSystemOverview: Story = {
             </Card>
           </section>
 
-          {/* 2. 타이포그래피 */}
+          {/* 2. ?�?�포그래??*/}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">🔤 타이포그래피</Typography>
+                <Typography variant="h2">?�� ?�?�포그래??/Typography>
 
                 <Stack spacing="2xl">
                   <div className="p-4 bg-slate-50 rounded-lg">
@@ -191,7 +188,7 @@ export const DesignSystemOverview: Story = {
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">🔘 버튼 (Buttons)</Typography>
+                <Typography variant="h2">?�� 버튼 (Buttons)</Typography>
 
                 <Stack spacing="3xl">
                   {/* Variants */}
@@ -232,27 +229,27 @@ export const DesignSystemOverview: Story = {
             </Card>
           </section>
 
-          {/* 4. 인풋 */}
+          {/* 4. ?�풋 */}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">📝 인풋 (Input Fields)</Typography>
+                <Typography variant="h2">?�� ?�풋 (Input Fields)</Typography>
 
                 <Stack spacing="2xl" className="max-w-md">
-                  <Input label="기본 입력" placeholder="이름을 입력하세요" />
+                  <Input label="기본 ?�력" placeholder="?�름???�력?�세?? />
                   <Input
-                    label="에러 상태"
-                    placeholder="이메일 입력"
+                    label="?�러 ?�태"
+                    placeholder="?�메???�력"
                     error
-                    errorMessage="이메일 형식이 올바르지 않습니다"
+                    errorMessage="?�메???�식???�바르�? ?�습?�다"
                   />
-                  <Input label="비활성화" placeholder="수정 불가" disabled />
+                  <Input label="비활?�화" placeholder="?�정 불�?" disabled />
                   <Select
-                    label="선택"
+                    label="?�택"
                     options={[
-                      { label: '선택하세요', value: '' },
-                      { label: '옵션 1', value: '1' },
-                      { label: '옵션 2', value: '2' },
+                      { label: '?�택?�세??, value: '' },
+                      { label: '?�션 1', value: '1' },
+                      { label: '?�션 2', value: '2' },
                     ]}
                   />
                 </Stack>
@@ -264,7 +261,7 @@ export const DesignSystemOverview: Story = {
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">🃏 카드 (Cards)</Typography>
+                <Typography variant="h2">?�� 카드 (Cards)</Typography>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
                   <Card variant="default">
@@ -272,8 +269,7 @@ export const DesignSystemOverview: Story = {
                       Default
                     </Typography>
                     <Typography variant="body2" className="text-slate-600">
-                      기본 카드 스타일
-                    </Typography>
+                      기본 카드 ?��???                    </Typography>
                   </Card>
                   <Card variant="bordered">
                     <Typography variant="h4" className="mb-2">
@@ -288,7 +284,7 @@ export const DesignSystemOverview: Story = {
                       Elevated
                     </Typography>
                     <Typography variant="body2" className="text-slate-600">
-                      그림자가 있는 카드
+                      그림?��? ?�는 카드
                     </Typography>
                   </Card>
                 </div>
@@ -296,11 +292,11 @@ export const DesignSystemOverview: Story = {
             </Card>
           </section>
 
-          {/* 6. 배지 */}
+          {/* 6. 배�? */}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">🏷️ 배지 (Badges)</Typography>
+                <Typography variant="h2">?���?배�? (Badges)</Typography>
 
                 <Stack direction="horizontal" spacing="2xl">
                   <Badge variant="default">Default</Badge>
@@ -313,35 +309,35 @@ export const DesignSystemOverview: Story = {
             </Card>
           </section>
 
-          {/* 7. 알림 */}
+          {/* 7. ?�림 */}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">📢 알림 (Alerts)</Typography>
+                <Typography variant="h2">?�� ?�림 (Alerts)</Typography>
 
                 <Stack spacing="2xl">
-                  <Alert variant="success" title="성공">
-                    작업이 성공적으로 완료되었습니다.
+                  <Alert variant="success" title="?�공">
+                    ?�업???�공?�으�??�료?�었?�니??
                   </Alert>
-                  <Alert variant="error" title="오류">
-                    오류가 발생했습니다. 다시 시도해주세요.
+                  <Alert variant="error" title="?�류">
+                    ?�류가 발생?�습?�다. ?�시 ?�도?�주?�요.
                   </Alert>
                   <Alert variant="warning" title="경고">
-                    이 작업은 되돌릴 수 없습니다.
+                    ???�업?� ?�돌�????�습?�다.
                   </Alert>
-                  <Alert variant="info" title="안내">
-                    새로운 기능이 추가되었습니다.
+                  <Alert variant="info" title="?�내">
+                    ?�로??기능??추�??�었?�니??
                   </Alert>
                 </Stack>
               </Stack>
             </Card>
           </section>
 
-          {/* 8. 간격 시스템 */}
+          {/* 8. 간격 ?�스??*/}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">📏 간격 시스템 (Spacing)</Typography>
+                <Typography variant="h2">?�� 간격 ?�스??(Spacing)</Typography>
 
                 <Stack spacing="2xl">
                   <div className="flex items-center gap-4">
@@ -393,11 +389,11 @@ export const DesignSystemOverview: Story = {
             </Card>
           </section>
 
-          {/* 9. 그림자 */}
+          {/* 9. 그림??*/}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">🌫️ 그림자 (Shadows)</Typography>
+                <Typography variant="h2">?���?그림??(Shadows)</Typography>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
                   <div className="p-6 bg-white rounded-lg shadow-sm border border-slate-200">
@@ -420,11 +416,11 @@ export const DesignSystemOverview: Story = {
             </Card>
           </section>
 
-          {/* 10. 모서리 반경 */}
+          {/* 10. 모서�?반경 */}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">⭕ 모서리 반경 (Radius)</Typography>
+                <Typography variant="h2">�?모서�?반경 (Radius)</Typography>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-16">
                   <div className="p-4 bg-slate-900 text-white rounded-sm">
@@ -444,28 +440,28 @@ export const DesignSystemOverview: Story = {
             </Card>
           </section>
 
-          {/* 11. 실전 예시 - 폼 */}
+          {/* 11. ?�전 ?�시 - ??*/}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
-                <Typography variant="h2">📋 실전 예시 - 로그인 폼</Typography>
+                <Typography variant="h2">?�� ?�전 ?�시 - 로그????/Typography>
 
                 <Stack spacing="2xl" className="max-w-md mx-auto">
                   <Alert variant="info">
-                    shadcn/ui 스타일이 적용된 폼 예시입니다.
+                    shadcn/ui ?��??�이 ?�용?????�시?�니??
                   </Alert>
 
                   <Input
-                    label="이메일"
+                    label="?�메??
                     type="email"
                     placeholder="your@email.com"
                     fullWidth
                   />
 
                   <Input
-                    label="비밀번호"
+                    label="비�?번호"
                     type="password"
-                    placeholder="••••••••"
+                    placeholder="?�••••••�?
                     fullWidth
                   />
 
@@ -474,20 +470,19 @@ export const DesignSystemOverview: Story = {
                       취소
                     </Button>
                     <Button variant="primary" fullWidth>
-                      로그인
-                    </Button>
+                      로그??                    </Button>
                   </Stack>
                 </Stack>
               </Stack>
             </Card>
           </section>
 
-          {/* 12. 실전 예시 - 대시보드 카드 */}
+          {/* 12. ?�전 ?�시 - ?�?�보??카드 */}
           <section>
             <Card variant="elevated" padding="lg">
               <Stack spacing="3xl" className="p-10">
                 <Typography variant="h2">
-                  📊 실전 예시 - 대시보드 카드
+                  ?�� ?�전 ?�시 - ?�?�보??카드
                 </Typography>
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
@@ -579,7 +574,7 @@ export const DesignSystemOverview: Story = {
           <Stack spacing="md" className="text-center pb-8">
             <Divider label="DBDS Design System" />
             <Typography variant="body2" className="text-slate-500">
-              shadcn/ui inspired • 완성도 85% • 프로덕션 준비 완료
+              shadcn/ui inspired ???�성??85% ???�로?�션 준�??�료
             </Typography>
           </Stack>
         </Stack>
@@ -588,13 +583,13 @@ export const DesignSystemOverview: Story = {
   ),
 };
 
-// 컬러 팔레트만 (figr 스타일)
+// 컬러 ?�레?�만 (figr ?��???
 export const ColorPalette: Story = {
   args: {},
   render: () => (
     <div className="min-h-screen bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
-        {/* 왼쪽: 설명 */}
+        {/* ?�쪽: ?�명 */}
         <div className="p-16 flex flex-col justify-center bg-white">
           <Typography
             variant="caption"
@@ -638,7 +633,7 @@ export const ColorPalette: Story = {
                 className="text-slate-600 leading-relaxed"
               >
                 Highlight semantic states to provide immediate visual feedback
-                during interface use— success (green), error (red), warning
+                during interface use??success (green), error (red), warning
                 (amber), and information (blue).
               </Typography>
             </div>
@@ -658,7 +653,7 @@ export const ColorPalette: Story = {
           </Stack>
         </div>
 
-        {/* 오른쪽: 색상 팔레트 */}
+        {/* ?�른�? ?�상 ?�레??*/}
         <div className="p-16 bg-slate-50 overflow-y-auto">
           <Stack spacing="2xl">
             {/* Neutral (Slate) */}
@@ -797,13 +792,13 @@ export const ColorPalette: Story = {
   ),
 };
 
-// 컴포넌트 갤러리 (figr 스타일)
+// 컴포?�트 갤러�?(figr ?��???
 export const ComponentShowcase: Story = {
   args: {},
   render: () => (
     <div className="min-h-screen bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
-        {/* 왼쪽: 설명 */}
+        {/* ?�쪽: ?�명 */}
         <div className="p-16 flex flex-col justify-center bg-white">
           <Typography
             variant="caption"
@@ -832,7 +827,7 @@ export const ComponentShowcase: Story = {
                 variant="body2"
                 className="text-slate-600 leading-relaxed"
               >
-                Basic building blocks—Button, Input, Badge, Typography, and
+                Basic building blocks?�Button, Input, Badge, Typography, and
                 more. These fundamental elements form the foundation of your
                 interface.
               </Typography>
@@ -846,7 +841,7 @@ export const ComponentShowcase: Story = {
                 variant="body2"
                 className="text-slate-600 leading-relaxed"
               >
-                Combined atoms creating functional units—Card and Stack
+                Combined atoms creating functional units?�Card and Stack
                 components for layout and content organization.
               </Typography>
             </div>
@@ -859,14 +854,14 @@ export const ComponentShowcase: Story = {
                 variant="body2"
                 className="text-slate-600 leading-relaxed"
               >
-                Complex, feature-rich components—Modal and Toast with global
+                Complex, feature-rich components?�Modal and Toast with global
                 state management for advanced interactions.
               </Typography>
             </div>
           </Stack>
         </div>
 
-        {/* 오른쪽: 컴포넌트 쇼케이스 */}
+        {/* ?�른�? 컴포?�트 ?��??�스 */}
         <div className="p-16 bg-slate-50 overflow-y-auto">
           <Stack spacing="2xl">
             {/* Buttons */}

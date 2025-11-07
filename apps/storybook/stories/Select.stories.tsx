@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Select } from '@dbds/components';
+import { Select } from '@design-system/components';
 
 const meta = {
   title: 'Components/Select',
@@ -29,11 +29,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const defaultOptions = [
-  { label: '선택하세요', value: '' },
-  { label: '개발팀', value: 'dev' },
-  { label: '디자인팀', value: 'design' },
-  { label: '마케팅팀', value: 'marketing' },
-  { label: '영업팀', value: 'sales' },
+  { label: '?�택?�세??, value: '' },
+  { label: '개발?�', value: 'dev' },
+  { label: '?�자?��?', value: 'design' },
+  { label: '마�??��?', value: 'marketing' },
+  { label: '?�업?�', value: 'sales' },
 ];
 
 export const Default: Story = {
@@ -44,23 +44,23 @@ export const Default: Story = {
 
 export const WithLabel: Story = {
   args: {
-    label: '부서',
+    label: '부??,
     options: defaultOptions,
   },
 };
 
 export const Error: Story = {
   args: {
-    label: '부서',
+    label: '부??,
     options: defaultOptions,
     error: true,
-    errorMessage: '부서를 선택해주세요.',
+    errorMessage: '부?��? ?�택?�주?�요.',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    label: '부서',
+    label: '부??,
     options: defaultOptions,
     disabled: true,
   },
@@ -68,7 +68,7 @@ export const Disabled: Story = {
 
 export const FullWidth: Story = {
   args: {
-    label: '부서',
+    label: '부??,
     options: defaultOptions,
     fullWidth: true,
   },
@@ -79,7 +79,7 @@ export const FullWidth: Story = {
 
 export const Small: Story = {
   args: {
-    label: '부서',
+    label: '부??,
     options: defaultOptions,
     size: 'sm',
   },
@@ -87,7 +87,7 @@ export const Small: Story = {
 
 export const Large: Story = {
   args: {
-    label: '부서',
+    label: '부??,
     options: defaultOptions,
     size: 'lg',
   },
@@ -95,12 +95,12 @@ export const Large: Story = {
 
 export const WithDisabledOption: Story = {
   args: {
-    label: '부서',
+    label: '부??,
     options: [
-      { label: '선택하세요', value: '' },
-      { label: '개발팀', value: 'dev' },
-      { label: '디자인팀 (선택 불가)', value: 'design', disabled: true },
-      { label: '마케팅팀', value: 'marketing' },
+      { label: '?�택?�세??, value: '' },
+      { label: '개발?�', value: 'dev' },
+      { label: '?�자?��? (?�택 불�?)', value: 'design', disabled: true },
+      { label: '마�??��?', value: 'marketing' },
     ],
   },
 };

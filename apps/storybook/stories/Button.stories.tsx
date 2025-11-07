@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@dbds/components';
+import { Button } from '@design-system/components';
 
 const meta = {
   title: 'Components/Button',
@@ -69,7 +69,7 @@ export const Ghost: Story = {
   },
 };
 
-// ğŸ†• Sidebar Variant
+// ?†• Sidebar Variant
 export const Sidebar: Story = {
   args: {
     children: 'Sidebar Button',
@@ -86,7 +86,7 @@ export const SidebarActive: Story = {
   },
 };
 
-// í¬ê¸°
+// ?¬ê¸°
 export const Small: Story = {
   args: {
     children: 'Small Button',
@@ -111,7 +111,7 @@ export const Large: Story = {
   },
 };
 
-// ìƒíƒœ
+// ?íƒœ
 export const Disabled: Story = {
   args: {
     children: 'Disabled Button',
@@ -135,7 +135,7 @@ export const FullWidth: Story = {
   ],
 };
 
-// Alignment Examples ğŸ†•
+// Alignment Examples ?†•
 export const AlignmentExamples: Story = {
   args: {
     children: 'Alignment Examples',

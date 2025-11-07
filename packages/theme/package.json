@@ -1,13 +1,13 @@
 {
-  "name": "@dbds/theme",
+  "name": "@design-system/theme",
   "version": "1.0.0",
-  "description": "DBDS Tailwind CSS Theme Preset",
+  "description": "Design System Tailwind CSS Theme Preset",
   "main": "index.js",
   "exports": {
     ".": "./index.js"
   },
   "dependencies": {
-    "@dbds/tokens": "workspace:*"
+    "@design-system/tokens": "workspace:*"
   },
   "peerDependencies": {
     "tailwindcss": "^3.4.0"
