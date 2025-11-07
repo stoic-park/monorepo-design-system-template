@@ -33,28 +33,28 @@ export const Default: Story = {
 export const Success: Story = {
   args: {
     variant: 'success',
-    children: '?�료',
+    children: '완료',
   },
 };
 
 export const Error: Story = {
   args: {
     variant: 'error',
-    children: '?�러',
+    children: '에러',
   },
 };
 
 export const Warning: Story = {
   args: {
     variant: 'warning',
-    children: '?��?,
+    children: '경고',
   },
 };
 
 export const Info: Story = {
   args: {
     variant: 'info',
-    children: '?�보',
+    children: '정보',
   },
 };
 
@@ -101,19 +101,19 @@ export const StatusBadges: Story = {
   render: () => (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-2">
-        <span className="w-20 text-sm text-gray-600">?�행 �?</span>
+        <span className="w-20 text-sm text-gray-600">실행 중:</span>
         <Badge variant="info">Running</Badge>
       </div>
       <div className="flex items-center gap-2">
-        <span className="w-20 text-sm text-gray-600">?�공:</span>
+        <span className="w-20 text-sm text-gray-600">성공:</span>
         <Badge variant="success">Success</Badge>
       </div>
       <div className="flex items-center gap-2">
-        <span className="w-20 text-sm text-gray-600">?�패:</span>
+        <span className="w-20 text-sm text-gray-600">실패:</span>
         <Badge variant="error">Failed</Badge>
       </div>
       <div className="flex items-center gap-2">
-        <span className="w-20 text-sm text-gray-600">?��?</span>
+        <span className="w-20 text-sm text-gray-600">대기:</span>
         <Badge variant="warning">Pending</Badge>
       </div>
     </div>

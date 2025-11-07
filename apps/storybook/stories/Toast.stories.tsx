@@ -18,36 +18,36 @@ const ToastDemo = () => {
 
   return (
     <div className="flex flex-col gap-3 p-8">
-      <h3 className="text-lg font-bold mb-2">Toast ?�스??/h3>
+      <h3 className="text-lg font-bold mb-2">Toast 테스트</h3>
 
-      <Button onClick={() => toast.success('?�업???�료?�었?�니??)}>
+      <Button onClick={() => toast.success('작업이 완료되었습니다')}>
         Success Toast
       </Button>
 
       <Button
         variant="outline"
-        onClick={() => toast.error('?�류가 발생?�습?�다')}
+        onClick={() => toast.error('오류가 발생했습니다')}
       >
         Error Toast
       </Button>
 
       <Button
         variant="outline"
-        onClick={() => toast.warning('주의가 ?�요?�니??)}
+        onClick={() => toast.warning('주의가 ?�요?�니??)}
       >
         Warning Toast
       </Button>
 
       <Button
         variant="outline"
-        onClick={() => toast.info('?�로???�림???�습?�다')}
+        onClick={() => toast.info('?�로???�림???�습?�다')}
       >
         Info Toast
       </Button>
 
       <Button
         variant="ghost"
-        onClick={() => toast.success('?�?�되?�습?�다', '?�공')}
+        onClick={() => toast.success('?�?�되?�습?�다', '?�공')}
       >
         Toast with Title
       </Button>
@@ -55,9 +55,9 @@ const ToastDemo = () => {
       <Button
         variant="ghost"
         onClick={() => {
-          toast.success('�?번째 ?�림');
-          setTimeout(() => toast.info('??번째 ?�림'), 500);
-          setTimeout(() => toast.warning('??번째 ?�림'), 1000);
+          toast.success('�?번째 ?�림');
+          setTimeout(() => toast.info('??번째 ?�림'), 500);
+          setTimeout(() => toast.warning('??번째 ?�림'), 1000);
         }}
       >
         Multiple Toasts
@@ -77,11 +77,11 @@ export const Interactive: StoryObj = {
 export const Usage: StoryObj = {
   render: () => (
     <div className="p-8 max-w-2xl">
-      <h2 className="text-xl font-bold mb-4">Toast ?�용 방법</h2>
+      <h2 className="text-xl font-bold mb-4">Toast ?�용 방법</h2>
 
       <div className="space-y-4">
         <div>
-          <h3 className="font-semibold mb-2">1. Provider ?�정</h3>
+          <h3 className="font-semibold mb-2">1. Provider ?�정</h3>
           <pre className="bg-gray-800 text-green-400 p-3 rounded text-xs overflow-auto">
             {`import { ToastProvider } from '@design-system/components';
 
@@ -96,7 +96,7 @@ function App() {
         </div>
 
         <div>
-          <h3 className="font-semibold mb-2">2. Toast ?�출</h3>
+          <h3 className="font-semibold mb-2">2. Toast ?�출</h3>
           <pre className="bg-gray-800 text-green-400 p-3 rounded text-xs overflow-auto">
             {`import { useToast } from '@design-system/components';
 
@@ -104,10 +104,10 @@ function MyComponent() {
   const toast = useToast();
 
   const handleSave = () => {
-    toast.success('?�?�되?�습?�다');
-    // toast.error('?�류 발생');
+    toast.success('?�?�되?�습?�다');
+    // toast.error('?�류 발생');
     // toast.warning('경고');
-    // toast.info('?�보');
+    // toast.info('?�보');
   };
 }`}
           </pre>

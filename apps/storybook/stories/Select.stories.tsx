@@ -29,11 +29,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const defaultOptions = [
-  { label: '? νƒ?μ„Έ??, value: '' },
-  { label: 'κ°λ°?€', value: 'dev' },
-  { label: '?”μ?Έν?', value: 'design' },
-  { label: 'λ§μ??…ν?', value: 'marketing' },
-  { label: '?μ—…?€', value: 'sales' },
+  { label: 'μ„ νƒν•μ„Έμ”', value: '' },
+  { label: 'κ°λ°μ', value: 'dev' },
+  { label: 'λ””μμ΄λ„', value: 'design' },
+  { label: 'λ§οΏ½??οΏ½οΏ½?', value: 'marketing' },
+  { label: '?οΏ½μ—…?οΏ½', value: 'sales' },
 ];
 
 export const Default: Story = {
@@ -54,7 +54,7 @@ export const Error: Story = {
     label: 'λ¶€??,
     options: defaultOptions,
     error: true,
-    errorMessage: 'λ¶€?λ? ? νƒ?΄μ£Ό?Έμ”.',
+    errorMessage: 'λ¶€?οΏ½οΏ½? ?οΏ½νƒ?οΏ½μ£Ό?οΏ½μ”.',
   },
 };
 
@@ -97,10 +97,10 @@ export const WithDisabledOption: Story = {
   args: {
     label: 'λ¶€??,
     options: [
-      { label: '? νƒ?μ„Έ??, value: '' },
-      { label: 'κ°λ°?€', value: 'dev' },
-      { label: '?”μ?Έν? (? νƒ λ¶κ?)', value: 'design', disabled: true },
-      { label: 'λ§μ??…ν?', value: 'marketing' },
+      { label: '?οΏ½νƒ?οΏ½μ„Έ??, value: '' },
+      { label: 'κ°λ°?οΏ½', value: 'dev' },
+      { label: '?οΏ½μ?οΏ½οΏ½? (?οΏ½νƒ λ¶οΏ½?)', value: 'design', disabled: true },
+      { label: 'λ§οΏ½??οΏ½οΏ½?', value: 'marketing' },
     ],
   },
 };
