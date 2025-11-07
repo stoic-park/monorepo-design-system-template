@@ -1,0 +1,10 @@
+*.ts
+*.tsx
+!*.d.ts
+tsconfig.json
+examples/
+templates/
+MIGRATION_GUIDE.md
+node_modules/
+
+
