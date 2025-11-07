@@ -2,9 +2,9 @@ import { Meta } from '@storybook/blocks';
 
 <Meta title="Welcome/시작하기" />
 
-# DBDS - Design Beyond Design System
+# Design System
 
-**흑백 미니멀리즘을 넘어선 본질적 디자인**
+**흑백 미니멀리즘 기반의 본질적 디자인**
 
 ---
 
@@ -20,34 +20,29 @@ import { Meta } from '@storybook/blocks';
 
 ## 📦 패키지 구성
 
-### @dbds/tokens
+### @design-system/tokens
 디자인 토큰 (색상, 타이포그래피, 간격 등)
 
-### @dbds/theme
+### @design-system/theme
 Tailwind CSS 프리셋
 
-### @dbds/components
-**13개 React 컴포넌트**
-- Atoms (10개): Button, Input, Select, Checkbox, Radio, TextArea, Typography, Badge, Alert, Divider, Spinner
+### @design-system/components
+**14개 React 컴포넌트**
+- Atoms (11개): Button, Input, Select, Checkbox, Radio, TextArea, Typography, Badge, Alert, Divider, Spinner
 - Molecules (1개): Card
 - Organisms (2개): Modal, Toast
-
-### @dbds/charts
-**ECharts 기반 통합 차트 라이브러리**
-- Line, Bar, Radar, Scatter, Calendar Heatmap
-- Gantt, Wafer Gantt, Airflow Bar
 
 ---
 
 ## 🚀 빠른 시작
 
 ```bash
-pnpm add @dbds/components
+pnpm add @design-system/components
 ```
 
 ```tsx
-import { Button, Input, ToastProvider } from '@dbds/components';
-import '@dbds/components/dist/styles.css';
+import { Button, Input, ToastProvider } from '@design-system/components';
+import '@design-system/components/dist/styles.css';
 
 function App() {
   return (
@@ -68,17 +63,17 @@ function App() {
 ### 원칙 (Principles)
 디자인 시스템의 철학과 기반
 
-👉 [Design Principles 보기](https://github.com/your-repo/packages/components/DESIGN_PRINCIPLES.md)
+👉 [Design Principles 보기](https://github.com/stoic-park/monorepo-design-system-template/blob/main/packages/components/DESIGN_PRINCIPLES.md)
 
 ### 가이드라인 (Guidelines)
 실전 사용 가이드
 
-👉 [Guidelines 보기](https://github.com/your-repo/packages/components/GUIDELINES.md)
+👉 [Guidelines 보기](https://github.com/stoic-park/monorepo-design-system-template/blob/main/packages/components/GUIDELINES.md)
 
 ### 패턴 (Patterns)
 재사용 가능한 UI 패턴
 
-👉 [Patterns 보기](https://github.com/your-repo/packages/components/PATTERNS.md)
+👉 [Patterns 보기](https://github.com/stoic-park/monorepo-design-system-template/blob/main/packages/components/PATTERNS.md)
 
 ---
 
@@ -101,11 +96,7 @@ function App() {
 - Checkbox, Radio, TextArea
 - Badge, Alert, Divider, Spinner
 - Card, Modal, Toast
-
-**Charts/** - 차트 라이브러리
-- Line Chart, Bar Chart, Radar Chart
-- Scatter, Calendar Heatmap
-- Gantt, Wafer Gantt
+- Typography, Stack
 
 ---
 
@@ -125,5 +116,4 @@ Tree-shaking, 작은 번들 크기 (~35KB)
 
 ---
 
-**DBDS로 일관성 있고 아름다운 제품을 만드세요!** 🚀
-
+**Design System으로 일관성 있고 아름다운 제품을 만드세요!** 🚀
