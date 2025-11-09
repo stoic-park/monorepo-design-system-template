@@ -33,14 +33,14 @@ const ToastDemo = () => {
 
       <Button
         variant="outline"
-        onClick={() => toast.warning('주의가 ?�요?�니??)}
+        onClick={() => toast.warning('주의가 필요합니다')}
       >
         Warning Toast
       </Button>
 
       <Button
         variant="outline"
-        onClick={() => toast.info('?�로???�림???�습?�다')}
+        onClick={() => toast.info('새로운 알림이 있습니다')}
       >
         Info Toast
       </Button>

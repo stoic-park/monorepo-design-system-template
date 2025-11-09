@@ -64,7 +64,7 @@ export const Checked: Story = {
   args: {
     name: 'option',
     value: '1',
-    label: '?�택??,
+    label: '선택됨',
     defaultChecked: true,
   },
 };

@@ -32,8 +32,8 @@ const defaultOptions = [
   { label: '선택하세요', value: '' },
   { label: '개발자', value: 'dev' },
   { label: '디자이너', value: 'design' },
-  { label: '마�??��?', value: 'marketing' },
-  { label: '?�업?�', value: 'sales' },
+  { label: '마케터', value: 'marketing' },
+  { label: '영업자', value: 'sales' },
 ];
 
 export const Default: Story = {
@@ -44,17 +44,17 @@ export const Default: Story = {
 
 export const WithLabel: Story = {
   args: {
-    label: '부??,
+    label: '부서',
     options: defaultOptions,
   },
 };
 
 export const Error: Story = {
   args: {
-    label: '부??,
+    label: '부서',
     options: defaultOptions,
     error: true,
-    errorMessage: '부?��? ?�택?�주?�요.',
+    errorMessage: '부서를 선택해주세요.',
   },
 };
 

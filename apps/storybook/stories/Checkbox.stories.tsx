@@ -40,22 +40,22 @@ export const WithDescription: Story = {
 
 export const Error: Story = {
   args: {
-    label: '?�수 ?�의 ??��',
+    label: '필수 동의 항목',
     error: true,
-    errorMessage: '?�수 ??��?�니??',
+    errorMessage: '필수 항목입니다',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    label: '비활?�화??,
+    label: '비활성화됨',
     disabled: true,
   },
 };
 
 export const Checked: Story = {
   args: {
-    label: '?�택??,
+    label: '선택됨',
     defaultChecked: true,
   },
 };
@@ -68,10 +68,10 @@ export const Group: Story = {
   args: {},
   render: () => (
     <div className="flex flex-col gap-3">
-      <Checkbox label="?�션 1" defaultChecked />
-      <Checkbox label="?�션 2" />
-      <Checkbox label="?�션 3" />
-      <Checkbox label="?�션 4 (비활?�화)" disabled />
+      <Checkbox label="옵션 1" defaultChecked />
+      <Checkbox label="옵션 2" />
+      <Checkbox label="옵션 3" />
+      <Checkbox label="옵션 4 (비활성화)" disabled />
     </div>
   ),
 };

@@ -36,18 +36,18 @@ export const Default: Story = {
 
 export const WithLabel: Story = {
   args: {
-    label: '?�명',
-    placeholder: '?�세???�명???�력?�세??,
+    label: '설명',
+    placeholder: '자세한 설명을 입력하세요',
     rows: 5,
   },
 };
 
 export const Error: Story = {
   args: {
-    label: '?�명',
-    placeholder: '?�용???�력?�세??,
+    label: '설명',
+    placeholder: '내용을 입력하세요',
     error: true,
-    errorMessage: '?�명???�력?�주?�요.',
+    errorMessage: '설명을 입력해주세요.',
   },
 };
 

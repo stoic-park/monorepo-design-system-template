@@ -42,7 +42,7 @@ export const WithLabel: Story = {
   },
   render: (args) => (
     <div className="w-96">
-      <p className="text-sm">로그??/p>
+      <p className="text-sm">로그인</p>
       <Divider {...args} />
       <p className="text-sm">소셜 로그인</p>
     </div>
