@@ -46,8 +46,11 @@ export const Alert: React.FC<AlertProps> = ({
     rounded-lg 
     border
     flex
+    items-start
     gap-3
   `;
+
+  // TODO: tokens 사용하여 컬러 적용
 
   const variantClasses = {
     default: `
@@ -98,7 +101,7 @@ export const Alert: React.FC<AlertProps> = ({
       {/* 아이콘 */}
       <div
         className={clsx(
-          'flex-shrink-0 font-bold text-lg',
+          'flex-shrink-0 font-bold text-lg leading-none pt-0.5',
           iconClasses[variant]
         )}
       >
