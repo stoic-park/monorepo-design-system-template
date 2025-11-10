@@ -142,25 +142,35 @@ module.exports = {
 
 ### Color System
 
-Minimal black & white design with functional accent colors.
+Based on [shadcn/ui](https://ui.shadcn.com/colors) and Tailwind CSS color palette.
 
 ```typescript
 import { colors } from '@design-system/tokens';
 
-// Pure black & white
-colors.black; // '#000000'
+// Pure colors
 colors.white; // '#FFFFFF'
+colors.black; // '#000000'
 
-// Gray scale
-colors.gray[50]; // Lightest
-colors.gray[500]; // Medium
-colors.gray[900]; // Darkest
+// Neutral colors (Slate - primary)
+colors.slate[50]; // '#F8FAFC' - Lightest
+colors.slate[500]; // '#64748B' - Medium
+colors.slate[900]; // '#0F172A' - Darkest
 
-// Functional colors (for status indication only)
-colors.chart.success.DEFAULT; // Green
-colors.chart.error.DEFAULT; // Red
-colors.chart.warning.DEFAULT; // Orange
-colors.chart.info.DEFAULT; // Blue
+// Alternative neutrals
+colors.gray[500]; // '#6B7280'
+colors.zinc[500]; // '#71717A'
+
+// Semantic colors
+colors.success.DEFAULT; // '#10B981' - Emerald-500
+colors.error.DEFAULT; // '#EF4444' - Red-500
+colors.warning.DEFAULT; // '#F59E0B' - Amber-500
+colors.info.DEFAULT; // '#3B82F6' - Blue-500
+
+// Chart colors (data visualization)
+colors.chart[1]; // Slate-900
+colors.chart[2]; // Blue-500
+colors.chart[3]; // Emerald-500
+// ... up to colors.chart[10]
 ```
 
 ---
