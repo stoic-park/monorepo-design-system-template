@@ -87,7 +87,7 @@ export const Small: Story = {
 
 export const Large: Story = {
   args: {
-    label: '부??,
+    label: '부서',
     options: defaultOptions,
     size: 'lg',
   },
@@ -95,12 +95,12 @@ export const Large: Story = {
 
 export const WithDisabledOption: Story = {
   args: {
-    label: '부??,
+    label: '부서',
     options: [
-      { label: '?�택?�세??, value: '' },
-      { label: '개발?�', value: 'dev' },
-      { label: '?�자?��? (?�택 불�?)', value: 'design', disabled: true },
-      { label: '마�??��?', value: 'marketing' },
+      { label: '선택하세요', value: '' },
+      { label: '개발자', value: 'dev' },
+      { label: '디자이너 (선택 불가)', value: 'design', disabled: true },
+      { label: '마케터', value: 'marketing' },
     ],
   },
 };

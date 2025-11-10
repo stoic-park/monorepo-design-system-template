@@ -61,8 +61,8 @@ export const Disabled: Story = {
 
 export const NoResize: Story = {
   args: {
-    label: '고정 ?�기',
-    placeholder: '리사?�즈 불�?',
+    label: '고정 크기',
+    placeholder: '리사이즈 불가',
     resize: 'none',
   },
 };

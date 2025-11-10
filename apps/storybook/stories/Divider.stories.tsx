@@ -79,11 +79,11 @@ export const Vertical: Story = {
   },
   render: () => (
     <div className="flex items-center h-20">
-      <span className="text-sm">?�쪽</span>
+      <span className="text-sm">왼쪽</span>
       <Divider orientation="vertical" />
-      <span className="text-sm">가?�데</span>
+      <span className="text-sm">가운데</span>
       <Divider orientation="vertical" />
-      <span className="text-sm">다른텍스트</span>
+      <span className="text-sm">오른쪽</span>
     </div>
   ),
 };
