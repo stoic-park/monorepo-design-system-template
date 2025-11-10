@@ -69,7 +69,7 @@ export const Ghost: Story = {
   },
 };
 
-// ?†• Sidebar Variant
+// ìƒˆë¡œìš´ Sidebar Variant
 export const Sidebar: Story = {
   args: {
     children: 'Sidebar Button',
@@ -86,7 +86,7 @@ export const SidebarActive: Story = {
   },
 };
 
-// ?¬ê¸°
+// í¬ê¸°
 export const Small: Story = {
   args: {
     children: 'Small Button',
@@ -111,7 +111,7 @@ export const Large: Story = {
   },
 };
 
-// ?íƒœ
+// ìƒíƒœ
 export const Disabled: Story = {
   args: {
     children: 'Disabled Button',
@@ -135,7 +135,7 @@ export const FullWidth: Story = {
   ],
 };
 
-// Alignment Examples ?†•
+// Alignment Examples
 export const AlignmentExamples: Story = {
   args: {
     children: 'Alignment Examples',

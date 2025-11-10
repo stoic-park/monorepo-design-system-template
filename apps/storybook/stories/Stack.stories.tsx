@@ -3,10 +3,10 @@ import React from 'react';
 import { Stack, Button, Card, Typography } from '@design-system/components';
 
 /**
- * Stack 컴포?�트
+ * Stack 컴포넌트
  *
- * ?�자???�큰 기반 간격 관�?컴포?�트
- * className?�로 직접 Tailwind�??��? ?�고 ?��???간격 ?�공
+ * 디자인 토큰 기반 간격 관리 컴포넌트
+ * className으로 직접 Tailwind를 사용할 수도 있고 일관된 간격 제공
  */
 const meta = {
   title: 'Components/Stack',

@@ -84,7 +84,7 @@ export const InButton: Story = {
   render: () => (
     <button className="px-4 py-2 bg-black text-white rounded-lg flex items-center gap-2">
       <Spinner size="sm" variant="white" />
-      로딩 �?..
+      로딩 중..
     </button>
   ),
 };

@@ -33,17 +33,17 @@ export const Basic: Story = {
 
     return (
       <>
-        <Button onClick={() => setOpen(true)}>모달 ?�기</Button>
-        <Modal open={open} onClose={() => setOpen(false)} title="모달 ?�목">
+        <Button onClick={() => setOpen(true)}>모달 열기</Button>
+        <Modal open={open} onClose={() => setOpen(false)} title="모달 제목">
           <Modal.Body>
-            <p>모달 ?�용?�니??</p>
+            <p>모달 내용입니다</p>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="outline" onClick={() => setOpen(false)}>
               취소
             </Button>
             <Button variant="primary" onClick={() => setOpen(false)}>
-              ?�인
+              확인
             </Button>
           </Modal.Footer>
         </Modal>
@@ -59,18 +59,18 @@ export const Small: Story = {
 
     return (
       <>
-        <Button onClick={() => setOpen(true)}>?��? 모달</Button>
+        <Button onClick={() => setOpen(true)}>작은 모달</Button>
         <Modal
           open={open}
           onClose={() => setOpen(false)}
-          title="?��? 모달"
+          title="작은 모달"
           size="sm"
         >
           <Modal.Body>
-            <p>?��? ?�기??모달?�니??</p>
+            <p>작은 크기의 모달입니다</p>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => setOpen(false)}>?�기</Button>
+            <Button onClick={() => setOpen(false)}>닫기</Button>
           </Modal.Footer>
         </Modal>
       </>
@@ -85,17 +85,17 @@ export const Large: Story = {
 
     return (
       <>
-        <Button onClick={() => setOpen(true)}>??모달</Button>
+        <Button onClick={() => setOpen(true)}>큰 모달</Button>
         <Modal
           open={open}
           onClose={() => setOpen(false)}
-          title="??모달"
+          title="큰 모달"
           size="lg"
         >
           <Modal.Body>
-            <p className="mb-4">???�기??모달?�니??</p>
+            <p className="mb-4">큰 크기의 모달입니다</p>
             <p className="text-sm text-gray-600">
-              많�? ?�용???�시?????�습?�다. Lorem ipsum dolor sit amet,
+              많은 내용을 표시할 수 있습니다. Lorem ipsum dolor sit amet,
               consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
               labore et dolore magna aliqua.
             </p>
