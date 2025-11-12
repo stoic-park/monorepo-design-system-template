@@ -239,11 +239,56 @@ MIT License - feel free to use this template for your projects!
 
 ---
 
+## 🎨 Figma Integration
+
+이 디자인 시스템의 모든 토큰을 Figma로 내보낼 수 있습니다.
+
+### 토큰 Export
+
+```bash
+# Figma Tokens Studio 형식으로 export
+pnpm export:figma
+```
+
+생성된 `figma-tokens.json` 파일을 Figma에서 사용할 수 있습니다.
+
+### Figma에서 Import 방법
+
+1. **Figma Tokens Studio 플러그인 설치**
+   - Figma → Plugins → Browse plugins
+   - "Tokens Studio for Figma" 검색 및 설치
+
+2. **토큰 Import**
+   - 플러그인 열기
+   - Settings → Load from JSON/File
+   - `figma-tokens.json` 파일 선택
+   - "Apply to document" 클릭
+
+3. **결과**
+   - ✅ 모든 색상이 Figma Color Styles로 생성됨
+   - ✅ Typography가 Text Styles로 생성됨
+   - ✅ Spacing, Shadows, Radius가 토큰으로 적용됨
+
+### 양방향 동기화
+
+Figma에서 토큰을 수정한 후, JSON을 다시 export하여 코드에 반영할 수 있습니다.
+
+**워크플로우:**
+
+```
+코드 → figma-tokens.json → Figma
+Figma → figma-tokens.json → 코드
+```
+
+---
+
 ## Related
 
 - [pnpm Workspaces](https://pnpm.io/workspaces)
 - [Turborepo Handbook](https://turbo.build/repo/docs/handbook)
 - [Design Tokens](https://spectrum.adobe.com/page/design-tokens/)
+- [Tokens Studio for Figma](https://tokens.studio/)
+- [Radix UI](https://www.radix-ui.com/)
 
 ---
 

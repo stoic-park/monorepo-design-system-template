@@ -11,7 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "storybook": "pnpm --filter storybook storybook",
-    "build-storybook": "pnpm --filter storybook build-storybook"
+    "build-storybook": "pnpm --filter storybook build-storybook",
+    "export:figma": "pnpm build && node scripts/export-figma-tokens.js"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.21.0",
