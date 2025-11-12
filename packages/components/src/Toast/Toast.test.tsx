@@ -1,147 +1,220 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
 import { ToastProvider, useToast } from './Toast';
+import { act } from 'react';
 
 // 테스트용 컴포넌트
-const ToastTester = () => {
+const TestComponent = () => {
   const toast = useToast();
 
   return (
     <div>
-      <button onClick={() => toast.success('성공 메시지')}>Success</button>
-      <button onClick={() => toast.error('에러 메시지')}>Error</button>
-      <button onClick={() => toast.warning('경고 메시지')}>Warning</button>
-      <button onClick={() => toast.info('정보 메시지')}>Info</button>
-      <button onClick={() => toast.success('제목 포함', '성공')}>
-        With Title
+      <button onClick={() => toast.success('Success message', 'Success')}>
+        Show Success
+      </button>
+      <button onClick={() => toast.error('Error message', 'Error')}>
+        Show Error
+      </button>
+      <button onClick={() => toast.warning('Warning message', 'Warning')}>
+        Show Warning
+      </button>
+      <button onClick={() => toast.info('Info message', 'Info')}>Show Info</button>
+      <button
+        onClick={() =>
+          toast.addToast({
+            variant: 'default',
+            message: 'Custom message',
+            duration: 5000,
+          })
+        }
+      >
+        Show Custom
       </button>
     </div>
   );
 };
 
 describe('Toast', () => {
-  describe('ToastProvider', () => {
-    it('children이 렌더링되어야 함', () => {
-      render(
-        <ToastProvider>
-          <div>App Content</div>
-        </ToastProvider>
-      );
-      expect(screen.getByText('App Content')).toBeInTheDocument();
-    });
+  it('ToastProvider가 렌더링되어야 함', () => {
+    render(
+      <ToastProvider>
+        <div>Content</div>
+      </ToastProvider>
+    );
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  describe('useToast hook', () => {
-    it('success toast가 표시되어야 함', async () => {
-      render(
-        <ToastProvider>
-          <ToastTester />
-        </ToastProvider>
-      );
+  it('useToast hook이 Provider 외부에서 에러를 발생시켜야 함', () => {
+    // 콘솔 에러 숨기기
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-      const button = screen.getByText('Success');
-      await userEvent.click(button);
-
-      await waitFor(
-        () => {
-          expect(screen.getByText('성공 메시지')).toBeInTheDocument();
-        },
-        { timeout: 2000 }
-      );
-    });
-
-    it('error toast가 표시되어야 함', async () => {
-      render(
-        <ToastProvider>
-          <ToastTester />
-        </ToastProvider>
-      );
-
-      const button = screen.getByText('Error');
-      await userEvent.click(button);
-
-      await waitFor(
-        () => {
-          expect(screen.getByText('에러 메시지')).toBeInTheDocument();
-        },
-        { timeout: 2000 }
-      );
-    });
-
-    it('warning toast가 표시되어야 함', async () => {
-      render(
-        <ToastProvider>
-          <ToastTester />
-        </ToastProvider>
-      );
-
-      const button = screen.getByText('Warning');
-      await userEvent.click(button);
-
-      await waitFor(
-        () => {
-          expect(screen.getByText('경고 메시지')).toBeInTheDocument();
-        },
-        { timeout: 2000 }
-      );
-    });
-
-    it('info toast가 표시되어야 함', async () => {
-      render(
-        <ToastProvider>
-          <ToastTester />
-        </ToastProvider>
-      );
-
-      const button = screen.getByText('Info');
-      await userEvent.click(button);
-
-      await waitFor(
-        () => {
-          expect(screen.getByText('정보 메시지')).toBeInTheDocument();
-        },
-        { timeout: 2000 }
-      );
-    });
-
-    it('title과 함께 toast가 표시되어야 함', async () => {
-      render(
-        <ToastProvider>
-          <ToastTester />
-        </ToastProvider>
-      );
-
-      const button = screen.getByText('With Title');
-      await userEvent.click(button);
-
-      await waitFor(
-        () => {
-          expect(screen.getByText('성공')).toBeInTheDocument();
-          expect(screen.getByText('제목 포함')).toBeInTheDocument();
-        },
-        { timeout: 2000 }
-      );
-    });
-  });
-
-  describe('자동 제거', () => {
-    it.skip('3초 후 toast가 자동으로 제거되어야 함 (manual test)', () => {
-      // 실제 브라우저에서 수동으로 테스트
-      // fakeTimers와 userEvent 충돌 이슈로 인해 skip
-    });
-  });
-
-  describe('Context 에러', () => {
-    it('ToastProvider 없이 useToast 사용 시 에러가 발생해야 함', () => {
-      const TestComponent = () => {
-        expect(() => useToast()).toThrow(
-          'useToast must be used within ToastProvider'
-        );
+    expect(() => {
+      const Component = () => {
+        useToast();
         return null;
       };
+      render(<Component />);
+    }).toThrow('useToast must be used within ToastProvider');
 
-      render(<TestComponent />);
+    consoleSpy.mockRestore();
+  });
+
+  it('success 토스트가 표시되어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ToastProvider>
+        <TestComponent />
+      </ToastProvider>
+    );
+
+    const button = screen.getByText('Show Success');
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText('Success')).toBeInTheDocument();
+      expect(screen.getByText('Success message')).toBeInTheDocument();
+    });
+  });
+
+  it('error 토스트가 표시되어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ToastProvider>
+        <TestComponent />
+      </ToastProvider>
+    );
+
+    const button = screen.getByText('Show Error');
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText('Error')).toBeInTheDocument();
+      expect(screen.getByText('Error message')).toBeInTheDocument();
+    });
+  });
+
+  it('warning 토스트가 표시되어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ToastProvider>
+        <TestComponent />
+      </ToastProvider>
+    );
+
+    const button = screen.getByText('Show Warning');
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText('Warning')).toBeInTheDocument();
+      expect(screen.getByText('Warning message')).toBeInTheDocument();
+    });
+  });
+
+  it('info 토스트가 표시되어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ToastProvider>
+        <TestComponent />
+      </ToastProvider>
+    );
+
+    const button = screen.getByText('Show Info');
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText('Info')).toBeInTheDocument();
+      expect(screen.getByText('Info message')).toBeInTheDocument();
+    });
+  });
+
+  it('커스텀 토스트가 표시되어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ToastProvider>
+        <TestComponent />
+      </ToastProvider>
+    );
+
+    const button = screen.getByText('Show Custom');
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText('Custom message')).toBeInTheDocument();
+    });
+  });
+
+  it('닫기 버튼으로 토스트를 닫을 수 있어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ToastProvider>
+        <TestComponent />
+      </ToastProvider>
+    );
+
+    const button = screen.getByText('Show Success');
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText('Success message')).toBeInTheDocument();
+    });
+
+    const closeButton = screen.getByLabelText('Close');
+    await user.click(closeButton);
+
+    await waitFor(() => {
+      expect(screen.queryByText('Success message')).not.toBeInTheDocument();
+    });
+  });
+
+  it('여러 토스트를 동시에 표시할 수 있어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ToastProvider>
+        <TestComponent />
+      </ToastProvider>
+    );
+
+    await user.click(screen.getByText('Show Success'));
+    await user.click(screen.getByText('Show Error'));
+    await user.click(screen.getByText('Show Warning'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Success message')).toBeInTheDocument();
+      expect(screen.getByText('Error message')).toBeInTheDocument();
+      expect(screen.getByText('Warning message')).toBeInTheDocument();
+    });
+  });
+
+  it('title 없이 message만 표시할 수 있어야 함', async () => {
+    const user = userEvent.setup();
+
+    const SimpleComponent = () => {
+      const toast = useToast();
+      return (
+        <button onClick={() => toast.addToast({ variant: 'info', message: 'Just message' })}>
+          Show
+        </button>
+      );
+    };
+
+    render(
+      <ToastProvider>
+        <SimpleComponent />
+      </ToastProvider>
+    );
+
+    await user.click(screen.getByText('Show'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Just message')).toBeInTheDocument();
     });
   });
 });

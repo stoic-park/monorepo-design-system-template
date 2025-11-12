@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import * as ToastPrimitive from '@radix-ui/react-toast';
 import clsx from 'clsx';
 
+// Toast 메시지 타입
 export interface ToastMessage {
   id: string;
   variant: 'default' | 'success' | 'error' | 'warning' | 'info';
@@ -9,6 +11,7 @@ export interface ToastMessage {
   duration?: number;
 }
 
+// Toast Context
 interface ToastContextValue {
   toasts: ToastMessage[];
   addToast: (toast: Omit<ToastMessage, 'id'>) => void;
@@ -47,13 +50,8 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
       };
 
       setToasts((prev) => [...prev, newToast]);
-
-      // 자동 제거
-      if (newToast.duration && newToast.duration > 0) {
-        setTimeout(() => removeToast(id), newToast.duration);
-      }
     },
-    [removeToast]
+    []
   );
 
   const success = useCallback(
@@ -88,8 +86,10 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     <ToastContext.Provider
       value={{ toasts, addToast, removeToast, success, error, warning, info }}
     >
-      {children}
-      <ToastContainer toasts={toasts} onRemove={removeToast} />
+      <ToastPrimitive.Provider swipeDirection="right">
+        {children}
+        <ToastViewport toasts={toasts} onRemove={removeToast} />
+      </ToastPrimitive.Provider>
     </ToastContext.Provider>
   );
 };
@@ -112,28 +112,23 @@ export const useToast = () => {
   return context;
 };
 
-/**
- * Toast Container (내부 컴포넌트)
- */
-const ToastContainer: React.FC<{
+// Toast Viewport
+const ToastViewport: React.FC<{
   toasts: ToastMessage[];
   onRemove: (id: string) => void;
 }> = ({ toasts, onRemove }) => {
-  if (toasts.length === 0) return null;
-
   return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
+    <>
       {toasts.map((toast) => (
-        <ToastItem key={toast.id} toast={toast} onRemove={onRemove} />
+        <Toast key={toast.id} toast={toast} onRemove={onRemove} />
       ))}
-    </div>
+      <ToastPrimitive.Viewport className="fixed top-4 right-4 z-50 flex flex-col gap-2 w-[420px] max-w-[100vw] p-4 pointer-events-none" />
+    </>
   );
 };
 
-/**
- * Toast Item (개별 토스트)
- */
-const ToastItem: React.FC<{
+// Toast Component
+const Toast: React.FC<{
   toast: ToastMessage;
   onRemove: (id: string) => void;
 }> = ({ toast, onRemove }) => {
@@ -162,14 +157,22 @@ const ToastItem: React.FC<{
   };
 
   return (
-    <div
+    <ToastPrimitive.Root
+      duration={toast.duration}
+      onOpenChange={(open) => {
+        if (!open) onRemove(toast.id);
+      }}
       className={clsx(
         'flex items-start gap-3',
-        'min-w-[300px] max-w-md',
         'p-4 rounded-lg',
         'border shadow-lg',
         'pointer-events-auto',
-        'animate-slide-in-right',
+        'data-[state=open]:animate-in data-[state=closed]:animate-out',
+        'data-[swipe=end]:animate-out',
+        'data-[state=closed]:fade-out-80 data-[state=open]:fade-in-0',
+        'data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full',
+        'data-[swipe=cancel]:translate-x-0 data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)]',
+        'data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)]',
         variantClasses[toast.variant]
       )}
     >
@@ -184,13 +187,16 @@ const ToastItem: React.FC<{
 
       <div className="flex-1 min-w-0">
         {toast.title && (
-          <div className="font-semibold text-sm mb-1">{toast.title}</div>
+          <ToastPrimitive.Title className="font-semibold text-sm mb-1">
+            {toast.title}
+          </ToastPrimitive.Title>
         )}
-        <div className="text-sm">{toast.message}</div>
+        <ToastPrimitive.Description className="text-sm">
+          {toast.message}
+        </ToastPrimitive.Description>
       </div>
 
-      <button
-        onClick={() => onRemove(toast.id)}
+      <ToastPrimitive.Close
         className={clsx(
           'flex-shrink-0',
           'w-5 h-5',
@@ -203,9 +209,12 @@ const ToastItem: React.FC<{
         aria-label="Close"
       >
         ✕
-      </button>
-    </div>
+      </ToastPrimitive.Close>
+    </ToastPrimitive.Root>
   );
 };
+
+// Export types
+export type { ToastContextValue };
 
 export default ToastProvider;

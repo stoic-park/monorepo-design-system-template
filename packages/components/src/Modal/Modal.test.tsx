@@ -1,229 +1,259 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Modal } from './Modal';
+import { describe, it, expect, vi } from 'vitest';
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+} from './Modal';
 
 describe('Modal', () => {
-  let originalOverflow: string;
+  const renderModal = (props = {}) => {
+    return render(
+      <Modal {...props}>
+        <ModalTrigger>모달 열기</ModalTrigger>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>모달 제목</ModalTitle>
+            <ModalClose />
+          </ModalHeader>
+          <ModalBody>모달 내용입니다.</ModalBody>
+          <ModalFooter>
+            <ModalClose>닫기</ModalClose>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    );
+  };
 
-  beforeEach(() => {
-    originalOverflow = document.body.style.overflow;
+  it('렌더링이 정상적으로 되어야 함', () => {
+    renderModal();
+    expect(screen.getByText('모달 열기')).toBeInTheDocument();
   });
 
-  afterEach(() => {
-    document.body.style.overflow = originalOverflow;
+  it('트리거 클릭 시 모달이 열려야 함', async () => {
+    const user = userEvent.setup();
+    renderModal();
+
+    const trigger = screen.getByText('모달 열기');
+    await user.click(trigger);
+
+    await waitFor(() => {
+      expect(screen.getByText('모달 제목')).toBeInTheDocument();
+      expect(screen.getByText('모달 내용입니다.')).toBeInTheDocument();
+    });
   });
 
-  describe('렌더링', () => {
-    it('open이 false일 때 렌더링되지 않아야 함', () => {
-      const { container } = render(
-        <Modal open={false} onClose={vi.fn()}>
-          <div>내용</div>
-        </Modal>
-      );
-      expect(container.firstChild).toBeNull();
-    });
+  it('닫기 버튼 클릭 시 모달이 닫혀야 함', async () => {
+    const user = userEvent.setup();
+    renderModal();
 
-    it('open이 true일 때 렌더링되어야 함', () => {
-      render(
-        <Modal open={true} onClose={vi.fn()}>
-          <div>모달 내용</div>
-        </Modal>
-      );
-      expect(screen.getByText('모달 내용')).toBeInTheDocument();
-    });
+    // 모달 열기
+    const trigger = screen.getByText('모달 열기');
+    await user.click(trigger);
 
-    it('title이 있을 때 title이 렌더링되어야 함', () => {
-      render(
-        <Modal open={true} onClose={vi.fn()} title="모달 제목">
-          <div>내용</div>
-        </Modal>
-      );
+    await waitFor(() => {
       expect(screen.getByText('모달 제목')).toBeInTheDocument();
     });
-  });
 
-  describe('크기', () => {
-    it('medium 크기가 기본값이어야 함', () => {
-      const { container } = render(
-        <Modal open={true} onClose={vi.fn()}>
-          <div>내용</div>
-        </Modal>
-      );
-      const modal = container.querySelector('.max-w-lg');
-      expect(modal).toBeInTheDocument();
-    });
+    // 모달 닫기
+    const closeButton = screen.getByRole('button', { name: '닫기' });
+    await user.click(closeButton);
 
-    it('small 크기가 적용되어야 함', () => {
-      const { container } = render(
-        <Modal open={true} onClose={vi.fn()} size="sm">
-          <div>내용</div>
-        </Modal>
-      );
-      const modal = container.querySelector('.max-w-md');
-      expect(modal).toBeInTheDocument();
-    });
-
-    it('large 크기가 적용되어야 함', () => {
-      const { container } = render(
-        <Modal open={true} onClose={vi.fn()} size="lg">
-          <div>내용</div>
-        </Modal>
-      );
-      const modal = container.querySelector('.max-w-2xl');
-      expect(modal).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('모달 제목')).not.toBeInTheDocument();
     });
   });
 
-  describe('닫기 동작', () => {
-    it('닫기 버튼 클릭 시 onClose가 호출되어야 함', async () => {
-      const user = userEvent.setup();
-      const onClose = vi.fn();
+  it('ESC 키로 모달이 닫혀야 함', async () => {
+    const user = userEvent.setup();
+    renderModal();
 
-      render(
-        <Modal open={true} onClose={onClose} title="제목">
-          <div>내용</div>
-        </Modal>
-      );
+    // 모달 열기
+    const trigger = screen.getByText('모달 열기');
+    await user.click(trigger);
 
-      const closeButton = screen.getByLabelText('Close');
-      await user.click(closeButton);
-      expect(onClose).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(screen.getByText('모달 제목')).toBeInTheDocument();
     });
 
-    it('ESC 키 누르면 onClose가 호출되어야 함', async () => {
-      const user = userEvent.setup();
-      const onClose = vi.fn();
+    // ESC 키 누르기
+    await user.keyboard('{Escape}');
 
-      render(
-        <Modal open={true} onClose={onClose}>
-          <div>내용</div>
-        </Modal>
-      );
-
-      await user.keyboard('{Escape}');
-      expect(onClose).toHaveBeenCalledTimes(1);
-    });
-
-    it('closeOnEsc가 false면 ESC 키로 닫히지 않아야 함', async () => {
-      const user = userEvent.setup();
-      const onClose = vi.fn();
-
-      render(
-        <Modal open={true} onClose={onClose} closeOnEsc={false}>
-          <div>내용</div>
-        </Modal>
-      );
-
-      await user.keyboard('{Escape}');
-      expect(onClose).not.toHaveBeenCalled();
-    });
-
-    it('배경 클릭 시 onClose가 호출되어야 함', async () => {
-      const user = userEvent.setup();
-      const onClose = vi.fn();
-
-      const { container } = render(
-        <Modal open={true} onClose={onClose}>
-          <div>내용</div>
-        </Modal>
-      );
-
-      const backdrop = container.querySelector('.fixed.inset-0');
-      if (backdrop) {
-        await user.click(backdrop);
-        expect(onClose).toHaveBeenCalled();
-      }
-    });
-
-    it('closeOnBackdrop이 false면 배경 클릭으로 닫히지 않아야 함', async () => {
-      const user = userEvent.setup();
-      const onClose = vi.fn();
-
-      const { container } = render(
-        <Modal open={true} onClose={onClose} closeOnBackdrop={false}>
-          <div>내용</div>
-        </Modal>
-      );
-
-      const backdrop = container.querySelector('.fixed.inset-0');
-      if (backdrop) {
-        await user.click(backdrop);
-        expect(onClose).not.toHaveBeenCalled();
-      }
+    await waitFor(() => {
+      expect(screen.queryByText('모달 제목')).not.toBeInTheDocument();
     });
   });
 
-  describe('Body Scroll 제어', () => {
-    it('모달이 열릴 때 body scroll이 hidden이어야 함', () => {
-      render(
-        <Modal open={true} onClose={vi.fn()}>
-          <div>내용</div>
-        </Modal>
-      );
-      expect(document.body.style.overflow).toBe('hidden');
-    });
+  it('defaultOpen prop으로 초기 열림 상태 설정', async () => {
+    render(
+      <Modal defaultOpen>
+        <ModalTrigger>트리거</ModalTrigger>
+        <ModalContent>
+          <ModalBody>내용</ModalBody>
+        </ModalContent>
+      </Modal>
+    );
 
-    it('모달이 닫힐 때 body scroll이 복원되어야 함', () => {
-      const { rerender } = render(
-        <Modal open={true} onClose={vi.fn()}>
-          <div>내용</div>
-        </Modal>
-      );
-
-      expect(document.body.style.overflow).toBe('hidden');
-
-      rerender(
-        <Modal open={false} onClose={vi.fn()}>
-          <div>내용</div>
-        </Modal>
-      );
-
-      expect(document.body.style.overflow).toBe('');
+    await waitFor(() => {
+      expect(screen.getByText('내용')).toBeInTheDocument();
     });
   });
 
-  describe('Compound Components', () => {
-    it('Modal.Body가 렌더링되어야 함', () => {
-      render(
-        <Modal open={true} onClose={vi.fn()}>
-          <Modal.Body>Body 내용</Modal.Body>
-        </Modal>
-      );
-      expect(screen.getByText('Body 내용')).toBeInTheDocument();
-    });
+  it('onOpenChange 콜백이 호출되어야 함', async () => {
+    const user = userEvent.setup();
+    const handleOpenChange = vi.fn();
 
-    it('Modal.Footer가 렌더링되어야 함', () => {
-      render(
-        <Modal open={true} onClose={vi.fn()}>
-          <Modal.Footer>Footer 내용</Modal.Footer>
-        </Modal>
-      );
-      expect(screen.getByText('Footer 내용')).toBeInTheDocument();
-    });
+    render(
+      <Modal onOpenChange={handleOpenChange}>
+        <ModalTrigger>트리거</ModalTrigger>
+        <ModalContent>
+          <ModalBody>내용</ModalBody>
+        </ModalContent>
+      </Modal>
+    );
 
-    it('Body와 Footer를 함께 사용할 수 있어야 함', () => {
-      render(
-        <Modal open={true} onClose={vi.fn()} title="제목">
-          <Modal.Body>본문</Modal.Body>
-          <Modal.Footer>푸터</Modal.Footer>
-        </Modal>
-      );
+    const trigger = screen.getByText('트리거');
+    await user.click(trigger);
+
+    expect(handleOpenChange).toHaveBeenCalledWith(true);
+  });
+
+  it('ModalDescription이 렌더링되어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Modal>
+        <ModalTrigger>트리거</ModalTrigger>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>제목</ModalTitle>
+          </ModalHeader>
+          <ModalBody>
+            <ModalDescription>설명입니다.</ModalDescription>
+            내용
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    );
+
+    await user.click(screen.getByText('트리거'));
+
+    await waitFor(() => {
+      expect(screen.getByText('설명입니다.')).toBeInTheDocument();
+    });
+  });
+
+  it('size prop이 적용되어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Modal>
+        <ModalTrigger>트리거</ModalTrigger>
+        <ModalContent size="sm" data-testid="modal-content">
+          <ModalBody>내용</ModalBody>
+        </ModalContent>
+      </Modal>
+    );
+
+    await user.click(screen.getByText('트리거'));
+
+    await waitFor(() => {
+      const content = screen.getByTestId('modal-content');
+      expect(content).toHaveClass('max-w-md');
+    });
+  });
+
+  it('커스텀 className이 적용되어야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Modal>
+        <ModalTrigger>트리거</ModalTrigger>
+        <ModalContent className="custom-class" data-testid="modal-content">
+          <ModalBody>내용</ModalBody>
+        </ModalContent>
+      </Modal>
+    );
+
+    await user.click(screen.getByText('트리거'));
+
+    await waitFor(() => {
+      const content = screen.getByTestId('modal-content');
+      expect(content).toHaveClass('custom-class');
+    });
+  });
+
+  it('ModalClose 아이콘 버튼이 작동해야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Modal>
+        <ModalTrigger>트리거</ModalTrigger>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>제목</ModalTitle>
+            <ModalClose data-testid="close-icon" />
+          </ModalHeader>
+          <ModalBody>내용</ModalBody>
+        </ModalContent>
+      </Modal>
+    );
+
+    await user.click(screen.getByText('트리거'));
+
+    await waitFor(() => {
       expect(screen.getByText('제목')).toBeInTheDocument();
-      expect(screen.getByText('본문')).toBeInTheDocument();
-      expect(screen.getByText('푸터')).toBeInTheDocument();
+    });
+
+    const closeIcon = screen.getByTestId('close-icon');
+    await user.click(closeIcon);
+
+    await waitFor(() => {
+      expect(screen.queryByText('제목')).not.toBeInTheDocument();
     });
   });
 
-  describe('커스텀 className', () => {
-    it('추가 className이 적용되어야 함', () => {
-      const { container } = render(
-        <Modal open={true} onClose={vi.fn()} className="custom-modal">
-          <div>내용</div>
-        </Modal>
+  it('controlled 모드로 작동해야 함', async () => {
+    const user = userEvent.setup();
+    const TestComponent = () => {
+      const [open, setOpen] = React.useState(false);
+
+      return (
+        <div>
+          <button onClick={() => setOpen(true)}>외부 버튼</button>
+          <Modal open={open} onOpenChange={setOpen}>
+            <ModalContent>
+              <ModalBody>내용</ModalBody>
+              <ModalFooter>
+                <ModalClose>닫기</ModalClose>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </div>
       );
-      const modal = container.querySelector('.custom-modal');
-      expect(modal).toBeInTheDocument();
+    };
+
+    render(<TestComponent />);
+
+    const externalButton = screen.getByText('외부 버튼');
+    await user.click(externalButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('내용')).toBeInTheDocument();
+    });
+
+    const closeButton = screen.getByRole('button', { name: '닫기' });
+    await user.click(closeButton);
+
+    await waitFor(() => {
+      expect(screen.queryByText('내용')).not.toBeInTheDocument();
     });
   });
 });

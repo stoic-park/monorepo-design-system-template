@@ -1,170 +1,200 @@
 import React from 'react';
+import * as SelectPrimitive from '@radix-ui/react-select';
 import clsx from 'clsx';
 
-export interface SelectOption {
-  label: string;
-  value: string | number;
-  disabled?: boolean;
+// Select Root
+export interface SelectProps extends SelectPrimitive.SelectProps {
+  children: React.ReactNode;
 }
 
-export interface SelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
-  /** 옵션 목록 */
-  options: SelectOption[];
-  /** 라벨 */
-  label?: string;
-  /** 에러 상태 */
-  error?: boolean;
-  /** 에러 메시지 */
-  errorMessage?: string;
-  /** 전체 너비 */
-  fullWidth?: boolean;
-  /** 크기 */
+export const Select = ({ children, ...props }: SelectProps) => {
+  return <SelectPrimitive.Root {...props}>{children}</SelectPrimitive.Root>;
+};
+
+// Select Trigger
+export interface SelectTriggerProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
   size?: 'sm' | 'md' | 'lg';
+  error?: boolean;
 }
 
-/**
- * Select 컴포넌트
- *
- * DBDS 흑백 미니멀 디자인을 따르는 드롭다운 선택 컴포넌트
- *
- * @example
- * ```tsx
- * <Select
- *   label="부서"
- *   options={[
- *     { label: '선택', value: '' },
- *     { label: '개발팀', value: 'dev' }
- *   ]}
- * />
- * ```
- */
-export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  (
-    {
-      options,
-      label,
-      error,
-      errorMessage,
-      fullWidth,
-      size = 'md',
-      className = '',
-      disabled,
-      ...props
-    },
-    ref
-  ) => {
-    const baseClasses = `
-      rounded-lg
-      border-2
-      transition-all
-      duration-200
-      bg-white
-      disabled:bg-gray-50
-      disabled:cursor-not-allowed
-      disabled:opacity-50
-      appearance-none
-      bg-no-repeat
-    `;
+export const SelectTrigger = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  SelectTriggerProps
+>(({ className, size = 'md', error, children, ...props }, ref) => {
+  const sizeClasses = {
+    sm: 'h-9 px-3 text-sm',
+    md: 'h-10 px-4 text-base',
+    lg: 'h-12 px-5 text-lg',
+  };
 
-    const sizeClasses = {
-      sm: 'pl-3 pr-10 py-1.5 text-sm',
-      md: 'pl-4 pr-12 py-2 text-base',
-      lg: 'pl-5 pr-14 py-3 text-lg',
-    };
+  const baseClasses = clsx(
+    'flex items-center justify-between w-full',
+    'rounded-lg border-2 bg-white',
+    'transition-all duration-200',
+    'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50',
+    'focus:outline-none focus:ring-2',
+    'data-[placeholder]:text-gray-400',
+    sizeClasses[size]
+  );
 
-    const normalClasses = `
-      border-gray-300
-      text-gray-900
-      focus:outline-none
-      focus:ring-2
-      focus:ring-black
-      focus:border-black
-      hover:border-gray-400
-    `;
+  const stateClasses = error
+    ? 'border-red-500 text-red-900 focus:ring-red-500 focus:border-red-500'
+    : 'border-gray-300 text-gray-900 focus:ring-black focus:border-black hover:border-gray-400';
 
-    // 커스텀 드롭다운 아이콘 스타일 (닫힘 상태 - 아래쪽 화살표)
-    const bgPositionClasses = {
-      sm: 'bg-[length:16px] bg-[right_0.75rem_center]',
-      md: 'bg-[length:20px] bg-[right_1rem_center]',
-      lg: 'bg-[length:24px] bg-[right_1.25rem_center]',
-    };
+  return (
+    <SelectPrimitive.Trigger
+      ref={ref}
+      className={clsx(baseClasses, stateClasses, className)}
+      {...props}
+    >
+      {children}
+      <SelectPrimitive.Icon asChild>
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-gray-600"
+        >
+          <path d="M19 9l-7 7-7-7" />
+        </svg>
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+  );
+});
 
-    const chevronDownIcon = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E`;
+SelectTrigger.displayName = 'SelectTrigger';
 
-    // 열림 상태 - 위쪽 화살표
-    const chevronUpIcon = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 15l7-7 7 7'%3E%3C/path%3E%3C/svg%3E`;
+// Select Value
+export const SelectValue = SelectPrimitive.Value;
 
-    const errorClasses = `
-      border-red-500
-      text-red-900
-      focus:outline-none
-      focus:ring-2
-      focus:ring-red-500
-      focus:border-red-500
-    `;
+// Select Content
+export interface SelectContentProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {}
 
-    const selectClasses = clsx(
-      baseClasses,
-      sizeClasses[size],
-      bgPositionClasses[size],
-      error ? errorClasses : normalClasses,
-      fullWidth ? 'w-full' : 'w-auto',
-      className
-    );
-
-    const SelectElement = (
-      <select
-        ref={ref}
-        className={selectClasses}
-        style={{
-          backgroundImage: `url("${chevronDownIcon}")`,
-          // focus 상태에서 위쪽 화살표로 변경
-          ...(props.onFocus && {}),
-        }}
-        onFocus={(e) => {
-          (e.target as HTMLSelectElement).style.backgroundImage =
-            `url("${chevronUpIcon}")`;
-          props.onFocus?.(e);
-        }}
-        onBlur={(e) => {
-          (e.target as HTMLSelectElement).style.backgroundImage =
-            `url("${chevronDownIcon}")`;
-          props.onBlur?.(e);
-        }}
-        disabled={disabled}
-        {...props}
-      >
-        {options.map((option, index) => (
-          <option
-            key={`${option.value}-${index}`}
-            value={option.value}
-            disabled={option.disabled}
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
-    );
-
-    // 라벨이 없으면 select만 반환
-    if (!label) {
-      return SelectElement;
-    }
-
-    // 라벨이 있으면 라벨과 함께 반환
-    return (
-      <div className={clsx('flex flex-col gap-1', fullWidth && 'w-full')}>
-        <label className="text-sm font-medium text-gray-900">{label}</label>
-        {SelectElement}
-        {error && errorMessage && (
-          <span className="text-xs text-red-500">{errorMessage}</span>
+export const SelectContent = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Content>,
+  SelectContentProps
+>(({ className, children, position = 'popper', ...props }, ref) => (
+  <SelectPrimitive.Portal>
+    <SelectPrimitive.Content
+      ref={ref}
+      className={clsx(
+        'relative z-50 min-w-[8rem] overflow-hidden',
+        'rounded-lg border-2 border-gray-200 bg-white shadow-lg',
+        'data-[state=open]:animate-in data-[state=closed]:animate-out',
+        'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+        'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+        'data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2',
+        position === 'popper' &&
+          'data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
+        className
+      )}
+      position={position}
+      {...props}
+    >
+      <SelectPrimitive.Viewport
+        className={clsx(
+          'p-1',
+          position === 'popper' &&
+            'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]'
         )}
-      </div>
-    );
-  }
-);
+      >
+        {children}
+      </SelectPrimitive.Viewport>
+    </SelectPrimitive.Content>
+  </SelectPrimitive.Portal>
+));
 
+SelectContent.displayName = 'SelectContent';
+
+// Select Item
+export interface SelectItemProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {}
+
+export const SelectItem = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Item>,
+  SelectItemProps
+>(({ className, children, ...props }, ref) => (
+  <SelectPrimitive.Item
+    ref={ref}
+    className={clsx(
+      'relative flex w-full cursor-pointer select-none items-center',
+      'rounded-md py-2 pl-8 pr-2 text-sm outline-none',
+      'focus:bg-gray-100 focus:text-gray-900',
+      'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      className
+    )}
+    {...props}
+  >
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <SelectPrimitive.ItemIndicator>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </SelectPrimitive.ItemIndicator>
+    </span>
+    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+  </SelectPrimitive.Item>
+));
+
+SelectItem.displayName = 'SelectItem';
+
+// Select Group
+export const SelectGroup = SelectPrimitive.Group;
+
+// Select Label
+export interface SelectLabelProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label> {}
+
+export const SelectLabel = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Label>,
+  SelectLabelProps
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Label
+    ref={ref}
+    className={clsx(
+      'py-1.5 pl-8 pr-2 text-xs font-semibold text-gray-500',
+      className
+    )}
+    {...props}
+  />
+));
+
+SelectLabel.displayName = 'SelectLabel';
+
+// Select Separator
+export interface SelectSeparatorProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator> {}
+
+export const SelectSeparator = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Separator>,
+  SelectSeparatorProps
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Separator
+    ref={ref}
+    className={clsx('-mx-1 my-1 h-px bg-gray-200', className)}
+    {...props}
+  />
+));
+
+SelectSeparator.displayName = 'SelectSeparator';
+
+// Export all
 Select.displayName = 'Select';
 
 export default Select;

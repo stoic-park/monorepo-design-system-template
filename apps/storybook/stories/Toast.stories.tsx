@@ -4,12 +4,11 @@ import { ToastProvider, useToast, Button } from '@design-system/components';
 
 const meta = {
   title: 'Components/Toast',
-  component: ToastProvider,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof ToastProvider>;
+} satisfies Meta;
 
 export default meta;
 

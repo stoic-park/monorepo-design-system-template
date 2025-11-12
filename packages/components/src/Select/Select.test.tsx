@@ -1,166 +1,212 @@
-import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Select } from './Select';
-
-const mockOptions = [
-  { label: '선택하세요', value: '' },
-  { label: '옵션 1', value: '1' },
-  { label: '옵션 2', value: '2' },
-  { label: '옵션 3', value: '3' },
-];
+import { describe, it, expect, vi } from 'vitest';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  SelectGroup,
+  SelectLabel,
+  SelectSeparator,
+} from './Select';
 
 describe('Select', () => {
-  describe('렌더링', () => {
-    it('기본 Select가 렌더링되어야 함', () => {
-      render(<Select options={mockOptions} />);
-      expect(screen.getByRole('combobox')).toBeInTheDocument();
-    });
+  const renderSelect = (props = {}) => {
+    return render(
+      <Select {...props}>
+        <SelectTrigger>
+          <SelectValue placeholder="과일을 선택하세요" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">사과</SelectItem>
+          <SelectItem value="banana">바나나</SelectItem>
+          <SelectItem value="orange">오렌지</SelectItem>
+        </SelectContent>
+      </Select>
+    );
+  };
 
-    it('options이 렌더링되어야 함', () => {
-      render(<Select options={mockOptions} />);
-      expect(
-        screen.getByRole('option', { name: '선택하세요' })
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('option', { name: '옵션 1' })
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('option', { name: '옵션 2' })
-      ).toBeInTheDocument();
-    });
-
-    it('label이 있을 때 label이 렌더링되어야 함', () => {
-      render(<Select label="부서" options={mockOptions} />);
-      expect(screen.getByText('부서')).toBeInTheDocument();
-    });
+  it('렌더링이 정상적으로 되어야 함', () => {
+    renderSelect();
+    expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 
-  describe('선택', () => {
-    it('옵션을 선택할 수 있어야 함', async () => {
-      const user = userEvent.setup();
-      render(<Select options={mockOptions} />);
-      const select = screen.getByRole('combobox');
-
-      await user.selectOptions(select, '1');
-      expect(select).toHaveValue('1');
-    });
-
-    it('onChange 이벤트가 호출되어야 함', async () => {
-      const user = userEvent.setup();
-      const onChange = vi.fn();
-
-      render(<Select options={mockOptions} onChange={onChange} />);
-      const select = screen.getByRole('combobox');
-
-      await user.selectOptions(select, '2');
-      expect(onChange).toHaveBeenCalled();
-    });
+  it('placeholder가 표시되어야 함', () => {
+    renderSelect();
+    expect(screen.getByText('과일을 선택하세요')).toBeInTheDocument();
   });
 
-  describe('크기', () => {
-    it('small 크기가 적용되어야 함', () => {
-      render(<Select options={mockOptions} size="sm" />);
-      const select = screen.getByRole('combobox');
-      expect(select).toHaveClass('text-sm');
-    });
+  it('클릭 시 옵션 목록이 열려야 함', async () => {
+    const user = userEvent.setup();
+    renderSelect();
 
-    it('medium 크기가 적용되어야 함', () => {
-      render(<Select options={mockOptions} size="md" />);
-      const select = screen.getByRole('combobox');
-      expect(select).toHaveClass('text-base');
-    });
+    const trigger = screen.getByRole('combobox');
+    await user.click(trigger);
 
-    it('large 크기가 적용되어야 함', () => {
-      render(<Select options={mockOptions} size="lg" />);
-      const select = screen.getByRole('combobox');
-      expect(select).toHaveClass('text-lg');
-    });
+    expect(screen.getByRole('option', { name: '사과' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: '바나나' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: '오렌지' })).toBeInTheDocument();
   });
 
-  describe('에러 상태', () => {
-    it('error가 true일 때 에러 스타일이 적용되어야 함', () => {
-      render(<Select options={mockOptions} error />);
-      const select = screen.getByRole('combobox');
-      expect(select).toHaveClass('border-red-500');
-    });
+  it('옵션 선택 시 값이 변경되어야 함', async () => {
+    const user = userEvent.setup();
+    const handleChange = vi.fn();
 
-    it('에러 메시지가 표시되어야 함', () => {
-      render(
-        <Select
-          label="부서"
-          options={mockOptions}
-          error
-          errorMessage="필수 항목입니다"
-        />
-      );
-      expect(screen.getByText('필수 항목입니다')).toBeInTheDocument();
-    });
+    render(
+      <Select onValueChange={handleChange}>
+        <SelectTrigger>
+          <SelectValue placeholder="과일을 선택하세요" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">사과</SelectItem>
+          <SelectItem value="banana">바나나</SelectItem>
+        </SelectContent>
+      </Select>
+    );
 
-    it('error가 false일 때 에러 메시지가 표시되지 않아야 함', () => {
-      render(
-        <Select options={mockOptions} error={false} errorMessage="에러" />
-      );
-      expect(screen.queryByText('에러')).not.toBeInTheDocument();
-    });
+    const trigger = screen.getByRole('combobox');
+    await user.click(trigger);
+
+    const appleOption = screen.getByRole('option', { name: '사과' });
+    await user.click(appleOption);
+
+    expect(handleChange).toHaveBeenCalledWith('apple');
   });
 
-  describe('전체 너비', () => {
-    it('fullWidth가 true일 때 w-full 클래스가 적용되어야 함', () => {
-      render(<Select options={mockOptions} fullWidth />);
-      const select = screen.getByRole('combobox');
-      expect(select).toHaveClass('w-full');
-    });
+  it('disabled 상태가 적용되어야 함', () => {
+    render(
+      <Select disabled>
+        <SelectTrigger>
+          <SelectValue placeholder="과일을 선택하세요" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">사과</SelectItem>
+        </SelectContent>
+      </Select>
+    );
+
+    const trigger = screen.getByRole('combobox');
+    expect(trigger).toBeDisabled();
   });
 
-  describe('비활성화', () => {
-    it('disabled 속성이 적용되어야 함', () => {
-      render(<Select options={mockOptions} disabled />);
-      const select = screen.getByRole('combobox');
-      expect(select).toBeDisabled();
-    });
+  it('size prop이 적용되어야 함', () => {
+    render(
+      <Select>
+        <SelectTrigger size="sm" data-testid="small-trigger">
+          <SelectValue placeholder="작은 셀렉트" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="test">테스트</SelectItem>
+        </SelectContent>
+      </Select>
+    );
 
-    it('disabled 상태에서 선택이 변경되지 않아야 함', async () => {
-      const user = userEvent.setup();
-      const onChange = vi.fn();
-
-      render(<Select options={mockOptions} disabled onChange={onChange} />);
-      const select = screen.getByRole('combobox');
-
-      await user.selectOptions(select, '1');
-      expect(onChange).not.toHaveBeenCalled();
-    });
+    const trigger = screen.getByTestId('small-trigger');
+    expect(trigger).toHaveClass('h-9');
   });
 
-  describe('옵션 비활성화', () => {
-    it('disabled된 옵션이 비활성화되어야 함', () => {
-      const optionsWithDisabled = [
-        { label: '선택', value: '' },
-        { label: '옵션 1', value: '1', disabled: true },
-        { label: '옵션 2', value: '2' },
-      ];
+  it('error 상태가 적용되어야 함', () => {
+    render(
+      <Select>
+        <SelectTrigger error data-testid="error-trigger">
+          <SelectValue placeholder="에러 상태" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="test">테스트</SelectItem>
+        </SelectContent>
+      </Select>
+    );
 
-      render(<Select options={optionsWithDisabled} />);
-      const option1 = screen.getByRole('option', {
-        name: '옵션 1',
-      }) as HTMLOptionElement;
-      expect(option1.disabled).toBe(true);
-    });
+    const trigger = screen.getByTestId('error-trigger');
+    expect(trigger).toHaveClass('border-red-500');
   });
 
-  describe('커스텀 className', () => {
-    it('추가 className이 적용되어야 함', () => {
-      render(<Select options={mockOptions} className="custom-select" />);
-      const select = screen.getByRole('combobox');
-      expect(select).toHaveClass('custom-select');
-    });
+  it('SelectGroup과 SelectLabel이 함께 작동해야 함', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder="음식 선택" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>과일</SelectLabel>
+            <SelectItem value="apple">사과</SelectItem>
+            <SelectItem value="banana">바나나</SelectItem>
+          </SelectGroup>
+          <SelectSeparator />
+          <SelectGroup>
+            <SelectLabel>채소</SelectLabel>
+            <SelectItem value="carrot">당근</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    );
+
+    const trigger = screen.getByRole('combobox');
+    await user.click(trigger);
+
+    expect(screen.getByText('과일')).toBeInTheDocument();
+    expect(screen.getByText('채소')).toBeInTheDocument();
   });
 
-  describe('ref 전달', () => {
-    it('ref가 select 요소에 전달되어야 함', () => {
-      const ref = { current: null as HTMLSelectElement | null };
-      render(<Select options={mockOptions} ref={ref} />);
-      expect(ref.current).toBeInstanceOf(HTMLSelectElement);
-    });
+  it('disabled된 옵션은 선택할 수 없어야 함', async () => {
+    const user = userEvent.setup();
+    const handleChange = vi.fn();
+
+    render(
+      <Select onValueChange={handleChange}>
+        <SelectTrigger>
+          <SelectValue placeholder="선택" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="enabled">활성화됨</SelectItem>
+          <SelectItem value="disabled" disabled>
+            비활성화됨
+          </SelectItem>
+        </SelectContent>
+      </Select>
+    );
+
+    const trigger = screen.getByRole('combobox');
+    await user.click(trigger);
+
+    const disabledOption = screen.getByRole('option', { name: '비활성화됨' });
+    expect(disabledOption).toHaveAttribute('data-disabled');
+  });
+
+  it('defaultValue가 설정되어야 함', () => {
+    render(
+      <Select defaultValue="banana">
+        <SelectTrigger>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">사과</SelectItem>
+          <SelectItem value="banana">바나나</SelectItem>
+        </SelectContent>
+      </Select>
+    );
+
+    expect(screen.getByText('바나나')).toBeInTheDocument();
+  });
+
+  it('커스텀 className이 적용되어야 함', () => {
+    render(
+      <Select>
+        <SelectTrigger className="custom-class" data-testid="custom-trigger">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="test">테스트</SelectItem>
+        </SelectContent>
+      </Select>
+    );
+
+    const trigger = screen.getByTestId('custom-trigger');
+    expect(trigger).toHaveClass('custom-class');
   });
 });
