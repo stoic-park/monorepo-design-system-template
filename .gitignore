@@ -13,6 +13,9 @@ storybook-static/
 .env
 .env.local
 .env.*.local
+.env.production
+.env.development
+.env.test
 
 # IDE
 .vscode/
@@ -42,3 +45,20 @@ coverage/
 .cache/
 tmp/
 temp/
+
+# Docker & Deployment
+docker-compose.override.yml
+backup/
+monitoring/prometheus/data/
+monitoring/grafana/data/
+monitoring/loki/data/
+deploy/nginx/ssl/*.pem
+deploy/nginx/ssl/*.key
+secrets/
+
+# Large data files
+*.csv
+!**/example.csv
+*.json.gz
+*.tar.gz
+!deploy/scripts/*.sh

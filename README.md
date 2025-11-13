@@ -203,26 +203,66 @@ colors.chart[3]; // Emerald-500
 
 ---
 
+## 🚀 Deployment
+
+### Docker Compose로 배포
+
+```bash
+# 배포
+docker-compose up -d
+
+# 확인
+curl http://localhost/health
+```
+
+**접속:** http://localhost
+
+### 자동 배포 스크립트
+
+```bash
+./deploy/scripts/deploy.sh
+```
+
+**백업/복구:**
+
+```bash
+./deploy/scripts/backup.sh
+./deploy/scripts/restore.sh [backup_file]
+```
+
+**모니터링:**
+
+```bash
+./deploy/scripts/monitoring-setup.sh
+docker-compose -f docker-compose.monitoring.yml up -d
+```
+
+- Grafana: http://localhost:3001
+- Prometheus: http://localhost:9090
+
+더 자세한 내용은 [아키텍처 가이드](./docs/ARCHITECTURE.md) 참고
+
+---
+
 ## Documentation
 
-- [Getting Started](./docs/guides/GETTING_STARTED.md)
-- [Monorepo Dependency Strategy](./docs/guides/MONOREPO_DEPENDENCY_STRATEGY.md)
+- [아키텍처 & 배포 가이드](./docs/ARCHITECTURE.md)
 - [Linting and Formatting](./docs/guides/LINTING_AND_FORMATTING.md)
 - [Design System Overview](./docs/design-system/OVERVIEW.md)
 
 ---
 
-## Contributing
+## 커스터마이징
 
-This template is designed to be forked and customized for your projects.
+이 템플릿은 프로젝트에 맞게 커스터마이징하도록 설계되었습니다.
 
-### Customization Ideas
+### 주요 커스터마이징 포인트
 
-- Replace color tokens with your brand colors
-- Add custom components
-- Integrate your preferred state management
-- Add testing frameworks (Vitest, Jest)
-- Add E2E testing (Playwright, Cypress)
+- 브랜드 색상으로 디자인 토큰 변경 (`packages/tokens`)
+- 커스텀 컴포넌트 추가 (`packages/components`)
+- 새 앱 추가 (`apps/` - [가이드](./docs/ARCHITECTURE.md#새-앱-추가하기) 참고)
+- 상태 관리 라이브러리 통합
+- 테스트 프레임워크 추가
 
 ---
 
