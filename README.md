@@ -21,6 +21,7 @@ A production-ready monorepo template with a minimal design system, built with **
 - **ESLint & Prettier** - Code quality and formatting
 - **Storybook** - Component documentation and development
 - **Hot Module Replacement** - Fast development feedback
+- **Pre-commit Hooks** - Automatic linting and type checking before commit
 
 ---
 
@@ -41,6 +42,9 @@ npm install -g pnpm
 ```bash
 # Install dependencies
 pnpm install
+
+# Setup git hooks (husky)
+pnpm prepare
 ```
 
 ### Development
@@ -54,6 +58,15 @@ pnpm format
 
 # Lint code
 pnpm lint
+
+# Type check
+pnpm type-check
+
+# Run all checks (type-check + lint + format)
+pnpm check
+
+# Auto-fix issues
+pnpm check:fix
 
 # Build all packages
 pnpm build
@@ -241,6 +254,35 @@ docker-compose -f docker-compose.monitoring.yml up -d
 - Prometheus: http://localhost:9090
 
 더 자세한 내용은 [아키텍처 가이드](./docs/ARCHITECTURE.md) 참고
+
+---
+
+## Code Quality
+
+### Pre-commit Hooks
+
+이 프로젝트는 **Husky**와 **lint-staged**를 사용하여 커밋 전 자동으로 코드 품질을 검사합니다:
+
+- **ESLint**: 코드 린팅
+- **Prettier**: 코드 포맷팅
+- **TypeScript**: 타입 체크
+
+커밋 시 자동으로 실행되며, 오류가 있으면 커밋이 차단됩니다.
+
+### 수동 실행
+
+```bash
+# 모든 체크 실행
+pnpm check
+
+# 자동 수정
+pnpm check:fix
+
+# 개별 실행
+pnpm type-check  # TypeScript 타입 체크
+pnpm lint        # ESLint 린팅
+pnpm format      # Prettier 포맷팅
+```
 
 ---
 
