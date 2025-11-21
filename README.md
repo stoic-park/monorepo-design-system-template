@@ -1,4 +1,4 @@
-# Monorepo Design System Template
+# Frontend Monorepo
 
 A production-ready monorepo template with a minimal design system, built with **pnpm**, **Turborepo**, **React**, and **Tailwind CSS**.
 
